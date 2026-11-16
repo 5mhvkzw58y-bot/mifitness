@@ -10,8 +10,8 @@
 *{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent}
 button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #b6958c66;outline-offset:2px}
 header{position:sticky;top:0;z-index:10;background:#faf7f4ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--sand);padding:12px 16px}
-.top{max-width:760px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px}.brand{font-weight:900;letter-spacing:.13em;font-size:14px;line-height:1.05}.brand span{display:block}.brand em{color:var(--terra);font-style:normal}
-.actions{display:flex;gap:7px}.btn{border:1px solid var(--sand);background:var(--white);color:var(--ink);border-radius:11px;padding:9px 12px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:4px}.btn.soft{background:#eadbd7}.btn.dark{background:var(--ink);color:white;border-color:var(--ink)}.btn.danger{color:var(--red)}
+.top{max-width:760px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.brand{font-weight:900;letter-spacing:.13em;font-size:14px;line-height:1.05}.brand span{display:block}.brand em{color:var(--terra);font-style:normal}
+.actions{display:flex;gap:6px;flex-wrap:wrap}.btn{border:1px solid var(--sand);background:var(--white);color:var(--ink);border-radius:11px;padding:8px 11px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:4px}.btn.soft{background:#eadbd7}.btn.dark{background:var(--ink);color:white;border-color:var(--ink)}.btn.danger{color:var(--red)}
 main{max-width:760px;margin:auto;padding:22px 15px 90px;display:grid;gap:15px}
 .welcome{text-align:center;padding:5px 0 12px}.avatar{width:62px;height:62px;margin:0 auto 10px;border-radius:50%;background:var(--blush);display:grid;place-items:center;font-size:25px}.welcome h1{font-size:25px;font-weight:500;margin:0}.welcome p{margin:5px 0;color:var(--taupe);font-size:13px}
 .card{background:var(--white);border:1px solid var(--sand);border-radius:18px;padding:16px;box-shadow:var(--shadow)}.eyebrow{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--terra);font-weight:800}.heading{font-size:23px;font-weight:800;margin:2px 0 12px}.goal{background:#eadbd7;border-radius:12px;padding:13px;font-size:14px}
@@ -28,7 +28,11 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
 <body>
 <header><div class="top">
   <div class="brand"><span>STUDIO</span><span>FITNESS <em>✿</em></span></div>
-  <div class="actions"><button class="btn soft" onclick="resetWeek()">↻ Reiniciar</button><button class="btn soft" onclick="backupDialog.showModal()">⇧ Respaldo</button></div>
+  <div class="actions">
+    <button class="btn dark" onclick="rotateAllVideos()">🔀 Nuevos vídeos</button>
+    <button class="btn soft" onclick="resetWeek()">↻ Reiniciar</button>
+    <button class="btn soft" onclick="backupDialog.showModal()">⇧ Respaldo</button>
+  </div>
 </div></header>
 <main>
 <section class="welcome"><div class="avatar">✧</div><h1 id="greeting">Tu Plan Semanal</h1><p>Rutinas con mancuernas · Cocco Fitness & growingannanas</p></section>
@@ -75,9 +79,9 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
   <div class="modal-actions"><button type="button" class="btn" onclick="exerciseDialog.close()">Cancelar</button><button class="btn dark" type="submit">Guardar rutina</button></div>
 </form></dialog>
 
-<dialog id="backupDialog"><div class="modal"><h2>Respaldo y vídeos</h2><p class="muted small">Descarga una copia o pulsa <b>Actualizar vídeos</b> para rotar automáticamente todos los entrenamientos de la semana con nuevas rutinas de Cocco Fitness y growingannanas.</p>
+<dialog id="backupDialog"><div class="modal"><h2>Respaldo y vídeos</h2><p class="muted small">Descarga una copia de seguridad o renueva los vídeos de la semana con nuevas rutinas con mancuernas.</p>
   <div class="modal-actions"><button class="btn" onclick="exportData()">Descargar JSON</button><label class="btn soft" style="text-align:center">Importar JSON<input type="file" accept=".json,application/json" onchange="importData(event)" hidden></label></div>
-  <div class="modal-actions"><button class="btn soft" onclick="restoreDefaults()">↻ Actualizar vídeos</button><button class="btn dark" onclick="backupDialog.close()">Cerrar</button></div>
+  <div class="modal-actions"><button class="btn soft" onclick="rotateAllVideos();backupDialog.close()">🔀 Nuevos vídeos</button><button class="btn dark" onclick="backupDialog.close()">Cerrar</button></div>
 </div></dialog>
 
 <dialog id="confirmDialog"><div class="modal"><h2>¿Reiniciar esta semana?</h2><p class="muted">Se desmarcarán las sesiones completadas de lunes a domingo. Tus rutinas y notas se conservarán.</p><div class="modal-actions"><button class="btn" onclick="confirmDialog.close()">Cancelar</button><button class="btn dark" onclick="doReset()">Sí, reiniciar</button></div></div></dialog>
@@ -87,7 +91,7 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
 const DAYS=['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
 const KEYS=['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
 const MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-const STORE='studio_fitness_plan_v4';
+const STORE='studio_fitness_plan_v5';
 
 const VIDEO_POOL={
  fullbody:[
@@ -142,17 +146,18 @@ function rotatingRoutineFor(d){
 
 function dataFor(d){return state.overrides[iso(d)]||rotatingRoutineFor(d)}
 
-function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){toast('No se pudo guardar. Descarga un respaldo.')}}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){toast('No se pudo guardar.')}}
 function load(){
  try{
-  let s=JSON.parse(localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v3')||localStorage.getItem('studio_fitness_plan_v2')||localStorage.getItem('studio_fitness_plan_v1'));
-  if(s){
+  let raw=localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v4')||localStorage.getItem('studio_fitness_plan_v3')||localStorage.getItem('studio_fitness_plan_v2')||localStorage.getItem('studio_fitness_plan_v1');
+  if(raw){
+   let s=JSON.parse(raw);
    let g=(s.profile?.greeting||'').trim();
    if(!g||g==='Hola, Mirian!')g='Tu Plan Semanal';
    state={profile:{greeting:g,goal:s.profile?.goal||state.profile.goal},rotationShift:s.rotationShift||0,overrides:s.overrides||{},completed:s.completed||{}};
    save();
   }
- }catch(e){toast('No se pudieron leer los datos guardados.')}
+ }catch(e){}
 }
 
 function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.add('hidden'),2600)}
@@ -204,7 +209,16 @@ function shuffleVideo(id){
  let nextIdx=(curIdx+1)%pool.length;
  let next=pool[nextIdx];
  ex.name=next.name;ex.sets=next.sets;ex.notes=next.notes;ex.url=next.url;ex.pool=poolName;
- save();render();toast('Vídeo cambiado por otra rutina con mancuernas');
+ save();render();toast('Vídeo cambiado por otra rutina');
+}
+
+function rotateAllVideos(){
+ state.rotationShift=(state.rotationShift||0)+1;
+ let s=monday(selected);
+ for(let i=0;i<7;i++){delete state.overrides[iso(s)];s.setDate(s.getDate()+1)}
+ window.openVideo=null;
+ save();render();
+ toast('Vídeos actualizados con nuevas rutinas');
 }
 
 function toggleDone(id){let k=iso(selected);state.completed[k] ||= {};if(state.completed[k][id])delete state.completed[k][id];else state.completed[k][id]=true;save();render();toast('Progreso actualizado')}
@@ -223,15 +237,12 @@ function resetWeek(){confirmDialog.showModal()}
 function doReset(){let s=monday(selected);for(let i=0;i<7;i++){delete state.completed[iso(s)];s.setDate(s.getDate()+1)}save();confirmDialog.close();render();toast('Semana reiniciada')}
 function exportData(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='studio-fitness-respaldo-'+iso(new Date())+'.json';a.click();URL.revokeObjectURL(url);toast('Copia descargada')}
 function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.profile)throw Error();if(!confirm('Esto reemplazará el plan y progreso actual. ¿Continuar?'))return;state={profile:x.profile,rotationShift:x.rotationShift||0,overrides:x.overrides||{},completed:x.completed||{}};save();render();backupDialog.close();toast('Respaldo restaurado')}catch(err){alert('El archivo no parece un respaldo válido de Studio Fitness.')}e.target.value=''};r.readAsText(f)}
-function restoreDefaults(){
- state.rotationShift=(state.rotationShift||0)+1;
- let s=monday(selected);
- for(let i=0;i<7;i++){delete state.overrides[iso(s)];s.setDate(s.getDate()+1)}
- window.openVideo=null;
- save();backupDialog.close();render();
- toast('Vídeos de toda la semana renovados');
-}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
 load();render();
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+ navigator.serviceWorker.getRegistrations().then(regs=>{regs.forEach(r=>r.update())});
+ navigator.serviceWorker.register('./sw.js?v=5');
+}
 </script>
-<script>if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js");</script></body></html>
+</body></html>
