@@ -1,0 +1,10 @@
+{
+  "name": "Studio Fitness · Mi plan",
+  "short_name": "Studio Fitness",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FAF7F4",
+  "theme_color": "#FAF7F4",
+  "description": "Planifica y registra tus entrenamientos."
+}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FAF7F4">
+<title>Studio Fitness · Mi plan</title>
+<style>
+:root{--cream:#FAF7F4;--white:#fff;--sand:#EAE2DC;--blush:#E5D3CE;--blushdark:#B6958C;--terra:#9E7469;--ink:#1C1917;--taupe:#7D6E6A;--sage:#6E8B74;--red:#a64c4c;--shadow:0 8px 24px #4b34250a}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent}
+button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #b6958c66;outline-offset:2px}
+header{position:sticky;top:0;z-index:10;background:#faf7f4ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--sand);padding:12px 16px}
+.top{max-width:760px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px}.brand{font-weight:900;letter-spacing:.13em;font-size:14px;line-height:1.05}.brand span{display:block}.brand em{color:var(--terra);font-style:normal}
+.actions{display:flex;gap:7px}.btn{border:1px solid var(--sand);background:var(--white);color:var(--ink);border-radius:11px;padding:9px 12px;font-size:12px;font-weight:700}.btn.soft{background:#eadbd7}.btn.dark{background:var(--ink);color:white;border-color:var(--ink)}.btn.danger{color:var(--red)}
+main{max-width:760px;margin:auto;padding:22px 15px 90px;display:grid;gap:15px}
+.welcome{text-align:center;padding:5px 0 12px}.avatar{width:62px;height:62px;margin:0 auto 10px;border-radius:50%;background:var(--blush);display:grid;place-items:center;font-size:25px}.welcome h1{font-size:25px;font-weight:500;margin:0}.welcome p{margin:5px 0;color:var(--taupe);font-size:13px}
+.card{background:var(--white);border:1px solid var(--sand);border-radius:18px;padding:16px;box-shadow:var(--shadow)}.eyebrow{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--terra);font-weight:800}.heading{font-size:23px;font-weight:800;margin:2px 0 12px}.goal{background:#eadbd7;border-radius:12px;padding:13px;font-size:14px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.row.wrap{flex-wrap:wrap}.muted{color:var(--taupe)}.small{font-size:12px}
+.week-select{width:100%;padding:12px;border:1px solid var(--sand);border-radius:12px;background:white;font-weight:700}
+.cal-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}.month-title{font-size:19px;font-weight:800}.grid7{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.weekday{text-align:center;font-size:10px;color:var(--taupe);font-weight:800;padding-bottom:5px}.day{min-height:47px;border:1px solid var(--sand);background:white;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:5px 0;color:var(--ink);font-size:12px}.day.out{opacity:.35}.day.active{background:var(--blush);border-color:var(--terra);font-weight:800}.day.today{box-shadow:inset 0 0 0 1px var(--terra)}.dot{width:6px;height:6px;border-radius:50%;background:var(--blushdark)}.dot.done{background:var(--sage)}.dots{display:flex;gap:3px;height:6px}
+.progress{height:8px;background:var(--cream);border:1px solid var(--sand);border-radius:99px;overflow:hidden;margin-top:8px}.bar{height:100%;background:var(--sage);width:0%;transition:width .2s}
+.exercise{border:1px solid var(--sand);background:white;border-radius:16px;padding:14px;margin-top:10px}.exercise.completed{border-color:#9ab09d;background:#f6faf6}.exercise h3{font-size:16px;margin:5px 0 4px}.exercise.completed h3{text-decoration:line-through;color:var(--taupe)}.tag{display:inline-block;background:#eadbd7;border-radius:99px;padding:3px 9px;font-size:11px;font-weight:700}.exercise-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--sand)}.exercise-actions .btn{flex:1}.video{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;margin-top:12px}
+.empty{text-align:center;padding:28px 10px;color:var(--taupe)}.empty b{display:block;color:var(--ink);font-size:17px;margin-bottom:4px}
+dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,480px);max-height:90vh;box-shadow:0 20px 70px #0003}dialog::backdrop{background:#1c191766;backdrop-filter:blur(3px)}.modal{padding:18px}.modal h2{margin:0 0 14px;font-size:20px}.field{display:grid;gap:5px;margin:12px 0}.field label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--taupe);font-weight:800}.field input,.field textarea{width:100%;border:1px solid var(--sand);border-radius:10px;background:var(--cream);padding:11px;color:var(--ink)}.field textarea{resize:vertical}.modal-actions{display:flex;gap:8px;margin-top:16px}.modal-actions>*{flex:1}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:11px 16px;border-radius:12px;z-index:30;font-size:13px;box-shadow:var(--shadow);max-width:90%;text-align:center}
+.hidden{display:none!important}
+@media(min-width:600px){main{padding:28px 20px 70px}.card{padding:20px}.day{min-height:57px}.grid7{gap:8px}}
+</style>
+<link rel="manifest" href="./manifest.webmanifest"></head>
+<body>
+<header><div class="top">
+  <div class="brand"><span>STUDIO</span><span>FITNESS <em>✿</em></span></div>
+  <div class="actions"><button class="btn soft" onclick="resetWeek()">↻ Reiniciar</button><button class="btn soft" onclick="backupDialog.showModal()">⇧ Respaldo</button></div>
+</div></header>
+<main>
+<section class="welcome"><div class="avatar">✧</div><h1 id="greeting">Hola, Mirian!</h1><p>Tu espacio para entrenar y cuidarte</p></section>
+
+<section class="card">
+  <div class="eyebrow">Esta semana · Objetivo</div><h2 class="heading">Un paso cada día</h2>
+  <div class="goal" id="goal">Mejorar la calidad del movimiento con carga moderada, desarrollando fuerza y control para un cuerpo más definido y funcional.</div>
+  <button class="btn" style="margin-top:10px" onclick="profileDialog.showModal()">Editar saludo y objetivo</button>
+</section>
+
+<section class="card">
+  <div class="cal-head">
+    <div class="row"><button class="btn" onclick="moveMonth(-1)" aria-label="Mes anterior">‹</button><strong class="month-title" id="monthTitle"></strong><button class="btn" onclick="moveMonth(1)" aria-label="Mes siguiente">›</button></div>
+    <div class="row"><button class="btn" onclick="goToday()">Hoy</button><select id="viewMode" class="btn" onchange="renderCalendar()"><option value="month">Vista mensual</option><option value="week">Vista semanal</option></select></div>
+  </div>
+  <div class="row wrap small muted" style="margin-bottom:10px"><span>● Rutina &nbsp; <span style="color:var(--sage)">●</span> Completado</span><strong id="weekSummary">0/0 sesiones</strong></div>
+  <div class="grid7" id="weekdays"></div><div class="grid7" id="calendar"></div>
+</section>
+
+<section class="card">
+  <div class="row wrap">
+    <div><div class="eyebrow" id="dateLabel">Día seleccionado</div><h2 class="heading" id="dayTitle" style="margin-bottom:0">—</h2><p class="muted small" id="focusText">—</p></div>
+    <button class="btn dark" onclick="focusDialog.showModal()">Editar enfoque</button>
+  </div>
+  <div style="margin-top:15px"><div class="row small"><span class="muted">Progreso del día</span><strong id="progressText">0/0 (0%)</strong></div><div class="progress"><div class="bar" id="progressBar"></div></div></div>
+  <button class="btn dark" style="width:100%;margin-top:14px" onclick="exerciseDialog.showModal();prepareExercise()">＋ Añadir rutina / vídeo</button>
+</section>
+<section id="exerciseList"></section>
+</main>
+
+<dialog id="profileDialog"><form class="modal" method="dialog" onsubmit="saveProfile(event)"><h2>Personalizar plan</h2>
+  <div class="field"><label>Saludo</label><input id="profileGreeting" maxlength="80"></div>
+  <div class="field"><label>Objetivo semanal</label><textarea id="profileGoal" rows="3"></textarea></div>
+  <div class="modal-actions"><button class="btn" value="cancel">Cancelar</button><button class="btn dark" type="submit">Guardar</button></div>
+</form></dialog>
+<dialog id="focusDialog"><form class="modal" method="dialog" onsubmit="saveFocus(event)"><h2>Enfoque del día</h2><div class="field"><label>Sesión</label><input id="focusInput" placeholder="Full Body, descanso…"></div><div class="modal-actions"><button class="btn" value="cancel">Cancelar</button><button class="btn dark" type="submit">Guardar</button></div></form></dialog>
+<dialog id="exerciseDialog"><form class="modal" method="dialog" onsubmit="saveExercise(event)"><h2 id="exerciseModalTitle">Añadir rutina</h2><input id="exerciseId" type="hidden">
+  <div class="field"><label>Nombre de la rutina</label><input id="exerciseName" required maxlength="160" placeholder="Ej. Full Body con mancuernas"></div>
+  <div class="field"><label>Duración / series</label><input id="exerciseSets" required maxlength="80" placeholder="30 min · 3 series"></div>
+  <div class="field"><label>Notas</label><textarea id="exerciseNotes" rows="2" placeholder="Peso, indicaciones…"></textarea></div>
+  <div class="field"><label>Enlace de YouTube (opcional)</label><input id="exerciseUrl" type="url" placeholder="https://youtube.com/..."></div>
+  <div class="modal-actions"><button type="button" class="btn" onclick="exerciseDialog.close()">Cancelar</button><button class="btn dark" type="submit">Guardar rutina</button></div>
+</form></dialog>
+<dialog id="backupDialog"><div class="modal"><h2>Respaldo de tus datos</h2><p class="muted small">Descarga una copia para conservar tus rutinas y progresos. Importar sustituye los datos actuales.</p>
+  <div class="modal-actions"><button class="btn" onclick="exportData()">Descargar JSON</button><label class="btn soft" style="text-align:center">Importar JSON<input type="file" accept=".json,application/json" onchange="importData(event)" hidden></label></div>
+  <div class="modal-actions"><button class="btn" onclick="restoreDefaults()">Restaurar plan inicial</button><button class="btn dark" onclick="backupDialog.close()">Cerrar</button></div>
+</div></dialog>
+<dialog id="confirmDialog"><div class="modal"><h2>¿Reiniciar esta semana?</h2><p class="muted">Se desmarcarán las sesiones completadas de lunes a domingo. Tus rutinas y notas se conservarán.</p><div class="modal-actions"><button class="btn" onclick="confirmDialog.close()">Cancelar</button><button class="btn dark" onclick="doReset()">Sí, reiniciar</button></div></div></dialog>
+<div id="toast" class="toast hidden" role="status"></div>
+<script>
+const DAYS=['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
+const KEYS=['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
+const MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const STORE='studio_fitness_plan_v1';
+const defaults={
+ lunes:{focus:'Full Body con Mancuernas',exercises:[{id:'l1',name:'35 min · Full Body con mancuernas — Cocco Fitness',sets:'35 min · Mancuernas 3–5 kg',notes:'Prioriza una buena ejecución y control.',url:'https://www.youtube.com/watch?v=TAi2ppRrne0'}]},
+ martes:{focus:'Descanso activo / movilidad',exercises:[{id:'m1',name:'Caminata suave o estiramientos',sets:'20–30 min',notes:'Recuperación activa y movilidad articular.',url:''}]},
+ miercoles:{focus:'Tren superior con mancuernas',exercises:[{id:'x1',name:'Brazos, espalda y abdomen — Cocco Fitness',sets:'35 min · Tren superior',notes:'Trabajo de brazos, hombros, espalda y core.',url:'https://www.youtube.com/watch?v=6F5z3QqQLSk'}]},
+ jueves:{focus:'Descanso / core opcional',exercises:[{id:'j1',name:'Descanso muscular',sets:'Día libre',notes:'Recupera antes de la sesión de tren inferior.',url:''}]},
+ viernes:{focus:'Tren inferior con mancuernas',exercises:[{id:'v1',name:'Piernas y glúteos — Cocco Fitness',sets:'30 min · Tren inferior',notes:'Enfoque en glúteos, cuádriceps e isquios.',url:'https://www.youtube.com/watch?v=O_Cn6nQFbYQ'}]},
+ sabado:{focus:'Extra Full Body / fuerza',exercises:[{id:'s1',name:'Strength with Weights — growingannanas',sets:'20 min · Mancuernas',notes:'Sesión corta de fuerza global, opcional.',url:'https://www.youtube.com/watch?v=cM6DB0S7Dso'}]},
+ domingo:{focus:'Descanso total',exercises:[]}
+};
+let state={profile:{greeting:'Hola, Mirian!',goal:'Mejorar la calidad del movimiento con carga moderada, desarrollando fuerza y control para un cuerpo más definido y funcional.'},routines:structuredClone(defaults),overrides:{},completed:{}};
+let selected=new Date();selected.setHours(0,0,0,0);let shown=new Date(selected.getFullYear(),selected.getMonth(),1);let editingId=null;
+function iso(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function keyDate(d){return KEYS[(d.getDay()+6)%7]}
+function monday(d){let x=new Date(d);x.setDate(x.getDate()-((x.getDay()+6)%7));x.setHours(0,0,0,0);return x}
+function dataFor(d){return state.overrides[iso(d)]||state.routines[keyDate(d)]||{focus:'',exercises:[]}}
+function clone(x){return JSON.parse(JSON.stringify(x))}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){toast('No se pudo guardar. Descarga un respaldo.');}}
+function load(){try{let s=JSON.parse(localStorage.getItem(STORE));if(s){state={profile:{...state.profile,...s.profile},routines:s.routines||clone(defaults),overrides:s.overrides||{},completed:s.completed||{}}}}catch(e){toast('No se pudieron leer los datos guardados.')}}
+function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.add('hidden'),2600)}
+function done(d,id){return !!state.completed[iso(d)]?.[id]}
+function yt(url){let m=(url||'').match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);return m?m[1]:null}
+function render(){
+ document.getElementById('greeting').textContent=state.profile.greeting;document.getElementById('goal').textContent=state.profile.goal;
+ document.getElementById('monthTitle').textContent=MONTHS[shown.getMonth()]+' '+shown.getFullYear();
+ document.getElementById('dayTitle').textContent=DAYS[(selected.getDay()+6)%7]+', '+selected.getDate()+' '+MONTHS[selected.getMonth()].slice(0,3);
+ document.getElementById('dateLabel').textContent=iso(selected);let d=dataFor(selected);document.getElementById('focusText').textContent=d.focus||'Sin enfoque definido';
+ renderCalendar();renderExercises();
+}
+function renderCalendar(){
+ const cal=document.getElementById('calendar'),wd=document.getElementById('weekdays');cal.innerHTML='';wd.innerHTML='';
+ ['L','M','X','J','V','S','D'].forEach(x=>wd.innerHTML+=`<div class="weekday">${x}</div>`);
+ const mode=document.getElementById('viewMode').value;let start,end;
+ if(mode==='week'){start=monday(selected);end=new Date(start);end.setDate(end.getDate()+6)}
+ else{let first=new Date(shown.getFullYear(),shown.getMonth(),1);start=monday(first);let last=new Date(shown.getFullYear(),shown.getMonth()+1,0);end=monday(last);end.setDate(end.getDate()+6)}
+ let total=0,complete=0;
+ for(let cur=new Date(start);cur<=end;cur.setDate(cur.getDate()+1)){
+  let x=new Date(cur),data=dataFor(x),n=data.exercises.length,c=data.exercises.filter(e=>done(x,e.id)).length;total+=n;complete+=c;
+  let b=document.createElement('button');b.className='day'+(x.getMonth()!==shown.getMonth()&&mode==='month'?' out':'')+(iso(x)===iso(selected)?' active':'')+(iso(x)===iso(new Date())?' today':'');b.setAttribute('aria-label',iso(x));b.innerHTML=`<span>${x.getDate()}</span><span class="dots">${n?`<i class="dot ${c===n?'done':''}"></i>`:''}</span>`;b.onclick=()=>{selected=x;shown=new Date(x.getFullYear(),x.getMonth(),1);render()};cal.appendChild(b)
+ }
+ document.getElementById('weekSummary').textContent=`${complete}/${total} sesiones en ${mode==='week'?'la semana':'la vista'}`;
+}
+function renderExercises(){
+ let box=document.getElementById('exerciseList'),d=dataFor(selected),arr=d.exercises||[];let n=arr.length,c=arr.filter(e=>done(selected,e.id)).length,p=n?Math.round(c/n*100):0;
+ document.getElementById('progressText').textContent=`${c}/${n} completados (${p}%)`;document.getElementById('progressBar').style.width=p+'%';
+ if(!n){box.innerHTML='<div class="card empty"><b>Un día para descansar ✿</b>No hay rutinas programadas. Puedes añadir una sesión si te apetece.</div>';return}
+ box.innerHTML=arr.map(e=>{let isDone=done(selected,e.id),id=yt(e.url);return `<article class="exercise ${isDone?'completed':''}"><span class="tag">${esc(e.sets)}</span><h3>${esc(e.name)}</h3>${e.notes?`<p class="muted small">${esc(e.notes)}</p>`:''}<div class="exercise-actions"><button class="btn ${isDone?'soft':''}" onclick="toggleDone('${e.id}')">${isDone?'✓ Completado':'○ Marcar completado'}</button><button class="btn" onclick="editExercise('${e.id}')">Editar</button><button class="btn danger" onclick="deleteExercise('${e.id}')">Eliminar</button></div>${id?`<div class="exercise-actions"><button class="btn" onclick="toggleEmbed('${e.id}')">${document.getElementById('video-'+e.id)?'Ocultar vídeo':'▶ Ver vídeo'}</button><a class="btn" href="${esc(e.url)}" target="_blank" rel="noopener">Abrir YouTube ↗</a></div>${window.openVideo===e.id?`<iframe class="video" src="https://www.youtube-nocookie.com/embed/${id}" title="${esc(e.name)}" allowfullscreen loading="lazy"></iframe>`:''}`:''}</article>`}).join('')
+}
+function ensureOverride(){let k=iso(selected);if(!state.overrides[k])state.overrides[k]=clone(dataFor(selected));return state.overrides[k]}
+function toggleDone(id){let k=iso(selected);state.completed[k] ||= {};if(state.completed[k][id])delete state.completed[k][id];else state.completed[k][id]=true;save();render();toast('Progreso actualizado')}
+function moveMonth(n){shown=new Date(shown.getFullYear(),shown.getMonth()+n,1);document.getElementById('viewMode').value='month';renderCalendar()}
+function goToday(){selected=new Date();selected.setHours(0,0,0,0);shown=new Date(selected.getFullYear(),selected.getMonth(),1);render()}
+function saveProfile(e){e.preventDefault();state.profile.greeting=document.getElementById('profileGreeting').value.trim()||'Hola!';state.profile.goal=document.getElementById('profileGoal').value.trim()||'Tu objetivo es cuidarte y avanzar poco a poco.';save();profileDialog.close();render()}
+document.querySelector('[onclick="profileDialog.showModal()"]').addEventListener('click',()=>{document.getElementById('profileGreeting').value=state.profile.greeting;document.getElementById('profileGoal').value=state.profile.goal});
+function saveFocus(e){e.preventDefault();ensureOverride().focus=document.getElementById('focusInput').value.trim()||'Entrenamiento general';save();focusDialog.close();render()}
+focusDialog.addEventListener('click',()=>{});document.querySelector('[onclick="focusDialog.showModal()"]').addEventListener('click',()=>document.getElementById('focusInput').value=dataFor(selected).focus||'');
+function prepareExercise(id=null){editingId=id;let ex=id?dataFor(selected).exercises.find(x=>x.id===id):null;exerciseModalTitle.textContent=ex?'Editar rutina':'Añadir rutina';exerciseId.value=ex?.id||'';exerciseName.value=ex?.name||'';exerciseSets.value=ex?.sets||'';exerciseNotes.value=ex?.notes||'';exerciseUrl.value=ex?.url||''}
+function editExercise(id){prepareExercise(id);exerciseDialog.showModal()}
+function saveExercise(e){e.preventDefault();let d=ensureOverride(),obj={id:editingId||'ex-'+Date.now(),name:exerciseName.value.trim(),sets:exerciseSets.value.trim(),notes:exerciseNotes.value.trim(),url:exerciseUrl.value.trim()};if(editingId){let i=d.exercises.findIndex(x=>x.id===editingId);if(i>=0)d.exercises[i]=obj}else d.exercises.push(obj);save();exerciseDialog.close();render();toast('Rutina guardada')}
+function deleteExercise(id){if(!confirm('¿Eliminar esta rutina de este día?'))return;let d=ensureOverride();d.exercises=d.exercises.filter(x=>x.id!==id);if(state.completed[iso(selected)])delete state.completed[iso(selected)][id];save();render();toast('Rutina eliminada')}
+function toggleEmbed(id){window.openVideo=window.openVideo===id?null:id;renderExercises()}
+function resetWeek(){confirmDialog.showModal()}
+function doReset(){let s=monday(selected);for(let i=0;i<7;i++){delete state.completed[iso(s)];s.setDate(s.getDate()+1)}save();confirmDialog.close();render();toast('Semana reiniciada')}
+function exportData(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='studio-fitness-respaldo-'+iso(new Date())+'.json';a.click();URL.revokeObjectURL(url);toast('Copia descargada')}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.routines||!x.profile)throw Error();if(!confirm('Esto reemplazará el plan y progreso actual. ¿Continuar?'))return;state={profile:x.profile,routines:x.routines,overrides:x.overrides||{},completed:x.completed||{}};save();render();backupDialog.close();toast('Respaldo restaurado')}catch(err){alert('El archivo no parece un respaldo válido de Studio Fitness.')}e.target.value=''};r.readAsText(f)}
+function restoreDefaults(){if(!confirm('¿Restaurar el plan inicial? Se perderán las personalizaciones de rutinas.'))return;state.routines=clone(defaults);state.overrides={};save();backupDialog.close();render();toast('Plan inicial restaurado')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+load();render();
+</script>
+<script>if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js");</script></body></html>
