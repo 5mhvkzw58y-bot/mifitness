@@ -35,7 +35,7 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
   </div>
 </div></header>
 <main>
-<section class="welcome"><div class="avatar">✧</div><h1 id="greeting">Tu Plan Semanal</h1><p>Rutinas con mancuernas · Cocco Fitness & growingannanas</p></section>
+<section class="welcome"><div class="avatar">✧</div><h1 id="greeting">Tu Plan Semanal</h1><p>Rutinas con mancuernas · Prioridad Cocco Fitness ✿</p></section>
 
 <section class="card">
   <div class="eyebrow">Esta semana · Objetivo</div><h2 class="heading">Un paso cada día</h2>
@@ -79,7 +79,7 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
   <div class="modal-actions"><button type="button" class="btn" onclick="exerciseDialog.close()">Cancelar</button><button class="btn dark" type="submit">Guardar rutina</button></div>
 </form></dialog>
 
-<dialog id="backupDialog"><div class="modal"><h2>Respaldo y vídeos</h2><p class="muted small">Descarga una copia de seguridad o renueva los vídeos de la semana con nuevas rutinas con mancuernas.</p>
+<dialog id="backupDialog"><div class="modal"><h2>Respaldo y vídeos</h2><p class="muted small">Descarga una copia de seguridad o pulsa <b>Nuevos vídeos</b> para rotar entre las rutinas con mancuernas de Cocco Fitness.</p>
   <div class="modal-actions"><button class="btn" onclick="exportData()">Descargar JSON</button><label class="btn soft" style="text-align:center">Importar JSON<input type="file" accept=".json,application/json" onchange="importData(event)" hidden></label></div>
   <div class="modal-actions"><button class="btn soft" onclick="rotateAllVideos();backupDialog.close()">🔀 Nuevos vídeos</button><button class="btn dark" onclick="backupDialog.close()">Cerrar</button></div>
 </div></dialog>
@@ -91,37 +91,38 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
 const DAYS=['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
 const KEYS=['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
 const MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-const STORE='studio_fitness_plan_v5';
+const STORE='studio_fitness_plan_v6';
 
 const VIDEO_POOL={
  fullbody:[
   {name:'35 MIN | Full Body con Mancuernas (Rutina Completa) — Cocco Fitness',sets:'35 min · Mancuernas 3–5 kg',notes:'Fuerza, estabilidad y resistencia trabajando todo el cuerpo.',url:'https://www.youtube.com/watch?v=TAi2ppRrne0'},
-  {name:'20 MIN | Full Body With Weights (Dumbbell Only) — growingannanas',sets:'20 min · Solo mancuernas',notes:'Sesión intensa de fuerza global con mancuernas.',url:'https://www.youtube.com/watch?v=Re6mj_DKKwc'},
-  {name:'20 MIN | Full Body METCON con Mancuernas (No Repeat) — Cocco Fitness',sets:'20 min · METCON mancuernas',notes:'Rutina metabólica sin repetir ejercicios para tonificar todo el cuerpo.',url:'https://www.youtube.com/watch?v=w7Dg2vaoqzM'},
-  {name:'40 MIN | Full Body Workout for Strength (Dumbbells) — growingannanas',sets:'40 min · Fuerza completa',notes:'Entrenamiento completo con mancuernas medias y pesadas.',url:'https://www.youtube.com/watch?v=p4MJlNbjPLw'},
-  {name:'30 MIN | All Standing Workout with Dumbbells — growingannanas',sets:'30 min · De pie con mancuernas',notes:'Cardio HIIT + fuerza con mancuernas sin bajar al suelo.',url:'https://www.youtube.com/watch?v=-FtlD0eRTro'},
-  {name:'20 MIN | Strength With Weights (Dumbbell Only) — growingannanas',sets:'20 min · Fuerza con mancuernas',notes:'Bloque enfocado en ganar fuerza y tono muscular.',url:'https://www.youtube.com/watch?v=cM6DB0S7Dso'}
+  {name:'35 MIN | Full Body con Mancuernas (No Repeat) — Cocco Fitness',sets:'35 min · Sin repetir ejercicios',notes:'Rutina completa para tonificar todo el cuerpo con mancuernas.',url:'https://www.youtube.com/watch?v=r8be4_nfxLs'},
+  {name:'30 MIN | Full Body con Mancuernas (29 Ejercicios No Repeat) — Cocco Fitness',sets:'30 min · Mancuernas 3–5 kg',notes:'Ganar fuerza, quemar calorías y definir músculos sin repetir.',url:'https://www.youtube.com/watch?v=BJ59GU1J6Zk'},
+  {name:'20 MIN | Full Body METCON con Mancuernas (No Repeat) — Cocco Fitness',sets:'20 min · METCON mancuernas',notes:'Sesión metabólica dinámica de cuerpo completo con mancuernas.',url:'https://www.youtube.com/watch?v=w7Dg2vaoqzM'},
+  {name:'20 MIN | Full Body With Weights (Dumbbell Only) — growingannanas',sets:'20 min · Solo mancuernas',notes:'Alternativa intensa de fuerza global con mancuernas.',url:'https://www.youtube.com/watch?v=Re6mj_DKKwc'}
  ],
  upper:[
   {name:'30 MIN | Brazos, Espalda y Hombros (Super Sets) — Cocco Fitness',sets:'30 min · Tren superior',notes:'Superseries con mancuernas para tonificar brazos, espalda y hombros.',url:'https://www.youtube.com/watch?v=sODyVHB0oys'},
   {name:'35 MIN | Brazos, Espalda y Abdomen con Mancuernas — Cocco Fitness',sets:'35 min · Tren superior + core',notes:'Formato No Repeat para brazos, hombros, espalda y abdomen.',url:'https://www.youtube.com/watch?v=6F5z3QqQLSk'},
   {name:'25 MIN | Brazos, Espalda y Hombros (Doble Sets) — Cocco Fitness',sets:'25 min · Tren superior',notes:'Rutina completa de tren superior en formato doble sets.',url:'https://www.youtube.com/watch?v=g4EzXFNrtRk'},
-  {name:'35 MIN | Total Upper Body Workout With Weights — growingannanas',sets:'35 min · Tren superior',notes:'Fuerza de tren superior con mancuernas para esculpir brazos y espalda.',url:'https://www.youtube.com/watch?v=Dw5Pam67SRA'}
+  {name:'30 MIN | Brazos, Espalda y Hombros (Rutina Completa) — Cocco Fitness',sets:'30 min · Tren superior',notes:'Trabajo equilibrado de tren superior con mancuernas.',url:'https://www.youtube.com/watch?v=UhNvQ4vunUQ'},
+  {name:'35 MIN | Total Upper Body Workout With Weights — growingannanas',sets:'35 min · Tren superior',notes:'Alternativa de fuerza para tren superior con mancuernas.',url:'https://www.youtube.com/watch?v=Dw5Pam67SRA'}
  ],
  lower:[
   {name:'30 MIN | Tren Inferior: Piernas y Glúteos con Mancuernas — Cocco Fitness',sets:'30 min · Tren inferior',notes:'Enfoque en glúteos, cuádriceps e isquios con mancuernas.',url:'https://www.youtube.com/watch?v=O_Cn6nQFbYQ'},
-  {name:'40 MIN | Full Body Strength (Enfoque Pierna y Fuerza) — growingannanas',sets:'40 min · Mancuernas',notes:'Trabajo intenso de fuerza con mancuernas y énfasis en tren inferior.',url:'https://www.youtube.com/watch?v=p4MJlNbjPLw'},
-  {name:'20 MIN | Strength With Weights (Dumbbell Only) — growingannanas',sets:'20 min · Mancuernas',notes:'Sentadillas, zancadas y fuerza funcional con mancuernas.',url:'https://www.youtube.com/watch?v=cM6DB0S7Dso'}
+  {name:'Piernas y Glúteos con Mancuernas (Rutina No Repeat) — Cocco Fitness',sets:'30 min · Piernas y glúteos',notes:'Entrenamiento completo de tren inferior sin repetir ejercicios.',url:'https://www.youtube.com/watch?v=ccHE008qJzg'},
+  {name:'15 MIN | Piernas y Glúteos con Mancuernas — Cocco Fitness',sets:'15 min · Express mancuernas',notes:'Sesión corta e intensa enfocada en piernas y glúteos.',url:'https://www.youtube.com/watch?v=zYWl0uhs3Uw'},
+  {name:'20 MIN | Strength With Weights (Dumbbell Only) — growingannanas',sets:'20 min · Mancuernas',notes:'Alternativa de fuerza funcional con sentadillas y zancadas.',url:'https://www.youtube.com/watch?v=cM6DB0S7Dso'}
  ]
 };
 
 const baseSchedule={
- lunes:{focus:'Full Body con Mancuernas',pool:'fullbody',offset:0},
+ lunes:{focus:'Full Body con Mancuernas · Cocco Fitness',pool:'fullbody',offset:0},
  martes:{focus:'Descanso activo / movilidad',exercises:[{id:'m1',name:'Caminata suave o estiramientos',sets:'20–30 min',notes:'Recuperación activa y movilidad articular.',url:''}]},
- miercoles:{focus:'Tren superior con mancuernas',pool:'upper',offset:0},
+ miercoles:{focus:'Tren superior con mancuernas · Cocco Fitness',pool:'upper',offset:0},
  jueves:{focus:'Descanso / core opcional',exercises:[{id:'j1',name:'Descanso muscular',sets:'Día libre',notes:'Recupera antes de la sesión de tren inferior.',url:''}]},
- viernes:{focus:'Tren inferior con mancuernas',pool:'lower',offset:0},
- sabado:{focus:'Extra Full Body / fuerza',pool:'fullbody',offset:2},
+ viernes:{focus:'Tren inferior con mancuernas · Cocco Fitness',pool:'lower',offset:0},
+ sabado:{focus:'Extra Full Body con mancuernas · Cocco Fitness',pool:'fullbody',offset:1},
  domingo:{focus:'Descanso total',exercises:[]}
 };
 
@@ -149,7 +150,7 @@ function dataFor(d){return state.overrides[iso(d)]||rotatingRoutineFor(d)}
 function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){toast('No se pudo guardar.')}}
 function load(){
  try{
-  let raw=localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v4')||localStorage.getItem('studio_fitness_plan_v3')||localStorage.getItem('studio_fitness_plan_v2')||localStorage.getItem('studio_fitness_plan_v1');
+  let raw=localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v5')||localStorage.getItem('studio_fitness_plan_v4')||localStorage.getItem('studio_fitness_plan_v3')||localStorage.getItem('studio_fitness_plan_v2')||localStorage.getItem('studio_fitness_plan_v1');
   if(raw){
    let s=JSON.parse(raw);
    let g=(s.profile?.greeting||'').trim();
@@ -209,7 +210,7 @@ function shuffleVideo(id){
  let nextIdx=(curIdx+1)%pool.length;
  let next=pool[nextIdx];
  ex.name=next.name;ex.sets=next.sets;ex.notes=next.notes;ex.url=next.url;ex.pool=poolName;
- save();render();toast('Vídeo cambiado por otra rutina');
+ save();render();toast('Vídeo cambiado por otra rutina de Cocco Fitness');
 }
 
 function rotateAllVideos(){
@@ -242,7 +243,7 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 load();render();
 if('serviceWorker' in navigator && location.protocol.startsWith('http')){
  navigator.serviceWorker.getRegistrations().then(regs=>{regs.forEach(r=>r.update())});
- navigator.serviceWorker.register('./sw.js?v=5');
+ navigator.serviceWorker.register('./sw.js?v=6');
 }
 </script>
 </body></html>
