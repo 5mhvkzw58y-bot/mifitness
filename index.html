@@ -6,64 +6,188 @@
 <meta name="theme-color" content="#FAF7F4">
 <title>Studio Fitness · Mi plan</title>
 <style>
-:root{--cream:#FAF7F4;--white:#fff;--sand:#EAE2DC;--blush:#E5D3CE;--blushdark:#B6958C;--terra:#9E7469;--ink:#1C1917;--taupe:#7D6E6A;--sage:#6E8B74;--red:#a64c4c;--shadow:0 8px 24px #4b34250a}
+:root{--cream:#FAF7F4;--white:#fff;--sand:#EAE2DC;--blush:#E5D3CE;--blushdark:#B6958C;--terra:#9E7469;--ink:#1C1917;--taupe:#7D6E6A;--sage:#6E8B74;--sagesoft:#eef4ef;--red:#a64c4c;--shadow:0 8px 24px #4b34250a}
 *{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent}
-button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #b6958c66;outline-offset:2px}
+button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #b6958c66;outline-offset:2px}
 header{position:sticky;top:0;z-index:10;background:#faf7f4ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--sand);padding:12px 16px}
 .top{max-width:760px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.brand{font-weight:900;letter-spacing:.13em;font-size:14px;line-height:1.05}.brand span{display:block}.brand em{color:var(--terra);font-style:normal}
-.actions{display:flex;gap:6px;flex-wrap:wrap}.btn{border:1px solid var(--sand);background:var(--white);color:var(--ink);border-radius:11px;padding:8px 11px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:4px}.btn.soft{background:#eadbd7}.btn.dark{background:var(--ink);color:white;border-color:var(--ink)}.btn.danger{color:var(--red)}
-main{max-width:760px;margin:auto;padding:22px 15px 90px;display:grid;gap:15px}
-.welcome{text-align:center;padding:5px 0 12px}.avatar{width:62px;height:62px;margin:0 auto 10px;border-radius:50%;background:var(--blush);display:grid;place-items:center;font-size:25px}.welcome h1{font-size:25px;font-weight:500;margin:0}.welcome p{margin:5px 0;color:var(--taupe);font-size:13px}
-.card{background:var(--white);border:1px solid var(--sand);border-radius:18px;padding:16px;box-shadow:var(--shadow)}.eyebrow{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--terra);font-weight:800}.heading{font-size:23px;font-weight:800;margin:2px 0 12px}.goal{background:#eadbd7;border-radius:12px;padding:13px;font-size:14px}
+.actions{display:flex;gap:6px;flex-wrap:wrap}.btn{border:1px solid var(--sand);background:var(--white);color:var(--ink);border-radius:11px;padding:8px 11px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:4px}.btn.soft{background:#eadbd7}.btn.dark{background:var(--ink);color:white;border-color:var(--ink)}.btn.sage{background:var(--sage);color:white;border-color:var(--sage)}.btn.danger{color:var(--red)}
+main{max-width:760px;margin:auto;padding:20px 15px 90px;display:grid;gap:15px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--white);border:1px solid var(--sand);border-radius:14px;padding:5px;box-shadow:var(--shadow)}
+.tab{border:0;background:transparent;color:var(--taupe);border-radius:10px;padding:10px 8px;font-size:13px;font-weight:800;transition:.15s}
+.tab.active{background:var(--ink);color:white}
+.welcome{text-align:center;padding:4px 0 8px}.avatar{width:60px;height:60px;margin:0 auto 10px;border-radius:50%;background:var(--blush);display:grid;place-items:center;font-size:24px}.welcome h1{font-size:24px;font-weight:500;margin:0}.welcome p{margin:4px 0;color:var(--taupe);font-size:13px}
+.card{background:var(--white);border:1px solid var(--sand);border-radius:18px;padding:16px;box-shadow:var(--shadow)}.eyebrow{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--terra);font-weight:800}.heading{font-size:22px;font-weight:800;margin:2px 0 12px}.goal{background:#eadbd7;border-radius:12px;padding:13px;font-size:14px}
 .row{display:flex;align-items:center;justify-content:space-between;gap:10px}.row.wrap{flex-wrap:wrap}.muted{color:var(--taupe)}.small{font-size:12px}
 .cal-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}.month-title{font-size:19px;font-weight:800;text-transform:capitalize}.grid7{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.weekday{text-align:center;font-size:10px;color:var(--taupe);font-weight:800;padding-bottom:5px}.day{min-height:47px;border:1px solid var(--sand);background:white;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:5px 0;color:var(--ink);font-size:12px}.day.out{opacity:.35}.day.active{background:var(--blush);border-color:var(--terra);font-weight:800}.day.today{box-shadow:inset 0 0 0 1px var(--terra)}.dot{width:6px;height:6px;border-radius:50%;background:var(--blushdark)}.dot.done{background:var(--sage)}.dots{display:flex;gap:3px;height:6px}
 .progress{height:8px;background:var(--cream);border:1px solid var(--sand);border-radius:99px;overflow:hidden;margin-top:8px}.bar{height:100%;background:var(--sage);width:0%;transition:width .2s}
 .exercise{border:1px solid var(--sand);background:white;border-radius:16px;padding:14px;margin-top:10px}.exercise.completed{border-color:#9ab09d;background:#f6faf6}.exercise h3{font-size:16px;margin:5px 0 4px}.exercise.completed h3{text-decoration:line-through;color:var(--taupe)}.tag{display:inline-block;background:#eadbd7;border-radius:99px;padding:3px 9px;font-size:11px;font-weight:700}.exercise-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--sand)}.exercise-actions .btn{flex:1}.video{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;margin-top:12px}
 .empty{text-align:center;padding:28px 10px;color:var(--taupe)}.empty b{display:block;color:var(--ink);font-size:17px;margin-bottom:4px}
+
+/* Apartado Entrenamiento en Casa */
+.pill-group{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
+.pill{border:1px solid var(--sand);background:var(--cream);color:var(--ink);border-radius:11px;padding:10px 6px;font-size:12px;font-weight:800;text-align:center}
+.pill.active{background:var(--blush);border-color:var(--terra);color:var(--ink)}
+.mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.timer-box{border-radius:16px;padding:18px 14px;text-align:center;background:var(--cream);border:1px solid var(--sand);margin-top:12px;transition:.2s}
+.timer-box.work{background:var(--sagesoft);border-color:#9ab09d}
+.timer-box.rest{background:#f5ebe8;border-color:var(--blushdark)}
+.timer-phase{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:var(--terra)}
+.timer-box.work .timer-phase{color:var(--sage)}
+.timer-clock{font-size:54px;font-weight:900;line-height:1.05;margin:6px 0;font-variant-numeric:tabular-nums}
+.timer-current{font-size:16px;font-weight:800;margin:4px 0 2px}
+.timer-next{font-size:12px;color:var(--taupe)}
+.timer-cfg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.timer-cfg label{display:grid;gap:4px;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--taupe);font-weight:800;text-align:center}
+.timer-cfg select{border:1px solid var(--sand);background:var(--white);border-radius:10px;padding:8px 4px;font-weight:700;text-align:center;color:var(--ink)}
+.home-item{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--sand);background:var(--white);border-radius:14px;padding:12px 14px;margin-top:8px}
+.home-item.now{border-color:var(--sage);background:var(--sagesoft)}
+.home-item.done{border-color:#9ab09d;background:#f6faf6;opacity:.75}
+.home-item.done b{text-decoration:line-through;color:var(--taupe)}
+
 dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,480px);max-height:90vh;box-shadow:0 20px 70px #0003}dialog::backdrop{background:#1c191766;backdrop-filter:blur(3px)}.modal{padding:18px}.modal h2{margin:0 0 14px;font-size:20px}.field{display:grid;gap:5px;margin:12px 0}.field label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--taupe);font-weight:800}.field input,.field textarea{width:100%;border:1px solid var(--sand);border-radius:10px;background:var(--cream);padding:11px;color:var(--ink)}.field textarea{resize:vertical}.modal-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}.modal-actions>*{flex:1}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:11px 16px;border-radius:12px;z-index:30;font-size:13px;box-shadow:var(--shadow);max-width:90%;text-align:center}
 .hidden{display:none!important}
-@media(min-width:600px){main{padding:28px 20px 70px}.card{padding:20px}.day{min-height:57px}.grid7{gap:8px}}
+@media(min-width:600px){main{padding:26px 20px 70px}.card{padding:20px}.day{min-height:57px}.grid7{gap:8px}}
 </style>
 <link rel="manifest" href="./manifest.webmanifest"></head>
 <body>
 <header><div class="top">
   <div class="brand"><span>STUDIO</span><span>FITNESS <em>✿</em></span></div>
   <div class="actions">
-    <button class="btn dark" onclick="rotateAllVideos()">🔀 Nuevos vídeos</button>
+    <button class="btn dark" id="btnRotateHeader" onclick="rotateAllVideos()">🔀 Nuevos vídeos</button>
     <button class="btn soft" onclick="resetWeek()">↻ Reiniciar</button>
     <button class="btn soft" onclick="backupDialog.showModal()">⇧ Respaldo</button>
   </div>
 </div></header>
+
 <main>
-<section class="welcome"><div class="avatar">✧</div><h1 id="greeting">Tu Plan Semanal</h1><p>Tu espacio para entrenar y cuidarte</p></section>
+<nav class="tabs" aria-label="Secciones">
+  <button class="tab active" id="tabVideos" onclick="switchTab('videos')">📅 Plan con Vídeos</button>
+  <button class="tab" id="tabHome" onclick="switchTab('home')">⏱ Entrenamiento en Casa</button>
+</nav>
 
-<section class="card">
-  <div class="eyebrow">Esta semana · Objetivo</div><h2 class="heading">Un paso cada día</h2>
-  <div class="goal" id="goal">Mejorar la calidad del movimiento con carga moderada, desarrollando fuerza y control para un cuerpo más definido y funcional.</div>
-  <button class="btn" style="margin-top:10px" onclick="openProfileModal()">Editar título y objetivo</button>
-</section>
+<!-- SECCIÓN 1: PLAN CON VÍDEOS -->
+<div id="viewVideos" style="display:grid;gap:15px">
+  <section class="welcome"><div class="avatar">✧</div><h1 id="greeting">Tu Plan Semanal</h1><p>Tu espacio para entrenar y cuidarte</p></section>
 
-<section class="card">
-  <div class="cal-head">
-    <div class="row"><button class="btn" onclick="moveMonth(-1)" aria-label="Mes anterior">‹</button><strong class="month-title" id="monthTitle"></strong><button class="btn" onclick="moveMonth(1)" aria-label="Mes siguiente">›</button></div>
-    <div class="row"><button class="btn" onclick="goToday()">Hoy</button><select id="viewMode" class="btn" onchange="renderCalendar()"><option value="month">Vista mensual</option><option value="week">Vista semanal</option></select></div>
-  </div>
-  <div class="row wrap small muted" style="margin-bottom:10px"><span>● Rutina &nbsp; <span style="color:var(--sage)">●</span> Completado</span><strong id="weekSummary">0/0 sesiones</strong></div>
-  <div class="grid7" id="weekdays"></div><div class="grid7" id="calendar"></div>
-</section>
+  <section class="card">
+    <div class="eyebrow">Esta semana · Objetivo</div><h2 class="heading">Un paso cada día</h2>
+    <div class="goal" id="goal">Mejorar la calidad del movimiento con carga moderada, desarrollando fuerza y control para un cuerpo más definido y funcional.</div>
+    <button class="btn" style="margin-top:10px" onclick="openProfileModal()">Editar título y objetivo</button>
+  </section>
 
-<section class="card">
-  <div>
-    <div class="eyebrow" id="dateLabel">Día seleccionado</div>
-    <h2 class="heading" id="dayTitle" style="margin-bottom:2px;text-transform:capitalize">—</h2>
-    <p class="muted small" id="focusText" style="margin:0">—</p>
-  </div>
-  <div style="margin-top:14px">
-    <div class="row small"><span class="muted">Progreso del día</span><strong id="progressText">0/0 (0%)</strong></div>
-    <div class="progress"><div class="bar" id="progressBar"></div></div>
-  </div>
-</section>
-<section id="exerciseList"></section>
+  <section class="card">
+    <div class="cal-head">
+      <div class="row"><button class="btn" onclick="moveMonth(-1)" aria-label="Mes anterior">‹</button><strong class="month-title" id="monthTitle"></strong><button class="btn" onclick="moveMonth(1)" aria-label="Mes siguiente">›</button></div>
+      <div class="row"><button class="btn" onclick="goToday()">Hoy</button><select id="viewMode" class="btn" onchange="renderCalendar()"><option value="month">Vista mensual</option><option value="week">Vista semanal</option></select></div>
+    </div>
+    <div class="row wrap small muted" style="margin-bottom:10px"><span>● Rutina &nbsp; <span style="color:var(--sage)">●</span> Completado</span><strong id="weekSummary">0/0 sesiones</strong></div>
+    <div class="grid7" id="weekdays"></div><div class="grid7" id="calendar"></div>
+  </section>
+
+  <section class="card">
+    <div>
+      <div class="eyebrow" id="dateLabel">Día seleccionado</div>
+      <h2 class="heading" id="dayTitle" style="margin-bottom:2px;text-transform:capitalize">—</h2>
+      <p class="muted small" id="focusText" style="margin:0">—</p>
+    </div>
+    <div style="margin-top:14px">
+      <div class="row small"><span class="muted">Progreso del día</span><strong id="progressText">0/0 (0%)</strong></div>
+      <div class="progress"><div class="bar" id="progressBar"></div></div>
+    </div>
+  </section>
+  <section id="exerciseList"></section>
+</div>
+
+<!-- SECCIÓN 2: ENTRENAMIENTO EN CASA (MANUAL + TEMPORIZADOR) -->
+<div id="viewHome" class="hidden" style="display:grid;gap:15px">
+  <section class="card">
+    <div class="eyebrow">Sin vídeos · Solo mancuernas</div>
+    <h2 class="heading" style="margin-bottom:4px">Entrenamiento en casa</h2>
+    <p class="muted small" style="margin:0 0 10px">Elige el enfoque muscular y entrena con el temporizador automático o a tu ritmo en modo manual.</p>
+
+    <div class="pill-group">
+      <button class="pill active" id="focus-fullbody" onclick="setHomeFocus('fullbody')">Full Body</button>
+      <button class="pill" id="focus-upper" onclick="setHomeFocus('upper')">Tren Superior</button>
+      <button class="pill" id="focus-lower" onclick="setHomeFocus('lower')">Tren Inferior</button>
+    </div>
+
+    <div class="mode-switch">
+      <button class="btn dark" id="modeTimerBtn" onclick="setHomeMode('timer')">⏱ Temporizador</button>
+      <button class="btn" id="modeManualBtn" onclick="setHomeMode('manual')">✓ Lista Manual</button>
+    </div>
+
+    <!-- BLOQUE TEMPORIZADOR -->
+    <div id="homeTimerArea">
+      <div class="timer-cfg">
+        <label>Trabajo
+          <select id="cfgWork" onchange="resetTimer()">
+            <option value="30">30 seg</option>
+            <option value="40" selected>40 seg</option>
+            <option value="45">45 seg</option>
+            <option value="50">50 seg</option>
+          </select>
+        </label>
+        <label>Descanso
+          <select id="cfgRest" onchange="resetTimer()">
+            <option value="10">10 seg</option>
+            <option value="15">15 seg</option>
+            <option value="20" selected>20 seg</option>
+            <option value="30">30 seg</option>
+          </select>
+        </label>
+        <label>Duración total
+          <select id="cfgTotal" onchange="resetTimer()">
+            <option value="10">10 min</option>
+            <option value="15">15 min</option>
+            <option value="20" selected>20 min</option>
+            <option value="25">25 min</option>
+            <option value="30">30 min</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="timer-box" id="timerBox">
+        <div class="timer-phase" id="timerPhase">LISTO PARA EMPEZAR</div>
+        <div class="timer-clock" id="timerClock">00:40</div>
+        <div class="timer-current" id="timerExercise">—</div>
+        <div class="timer-next" id="timerMeta">Ronda 1 de 20 · Total 20 min</div>
+      </div>
+
+      <div class="exercise-actions">
+        <button class="btn dark" id="timerStartBtn" onclick="toggleTimer()">▶ Iniciar</button>
+        <button class="btn" onclick="skipTimerStep()">⏭ Siguiente</button>
+        <button class="btn" onclick="resetTimer()">↻ Reiniciar</button>
+      </div>
+    </div>
+
+    <!-- BLOQUE LISTA MANUAL -->
+    <div id="homeManualArea" class="hidden" style="margin-top:12px">
+      <div class="row small">
+        <span class="muted">Progreso manual</span>
+        <strong id="manualProgressText">0/0 completados</strong>
+      </div>
+      <div class="progress"><div class="bar" id="manualProgressBar"></div></div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn" style="flex:1" onclick="addHomeExerciseDialog.showModal()">＋ Añadir ejercicio</button>
+        <button class="btn soft" style="flex:1" onclick="resetManualChecks()">Desmarcar todo</button>
+      </div>
+    </div>
+
+    <button class="btn sage" style="width:100%;margin-top:12px" onclick="logHomeWorkoutToday()">✓ Guardar sesión completada en hoy</button>
+  </section>
+
+  <section class="card">
+    <div class="row">
+      <div>
+        <div class="eyebrow">Circuito activo</div>
+        <strong id="homeRoutineTitle" style="font-size:17px">Full Body con mancuernas</strong>
+      </div>
+      <button class="btn small" onclick="resetHomeExercises()">Restaurar lista</button>
+    </div>
+    <div id="homeExerciseList" style="margin-top:8px"></div>
+  </section>
+</div>
 </main>
 
 <dialog id="profileDialog"><form class="modal" method="dialog" onsubmit="saveProfile(event)"><h2>Personalizar plan</h2>
@@ -80,6 +204,12 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
   <div class="modal-actions"><button type="button" class="btn" onclick="exerciseDialog.close()">Cancelar</button><button class="btn dark" type="submit">Guardar rutina</button></div>
 </form></dialog>
 
+<dialog id="addHomeExerciseDialog"><form class="modal" method="dialog" onsubmit="saveNewHomeExercise(event)"><h2>Añadir ejercicio con mancuernas</h2>
+  <div class="field"><label>Ejercicio</label><input id="newHomeName" required maxlength="120" placeholder="Ej. Zancadas alternas con mancuernas"></div>
+  <div class="field"><label>Indicaciones / Series manuales</label><input id="newHomeDetail" maxlength="80" placeholder="3 series × 12 reps · Mancuernas 4 kg"></div>
+  <div class="modal-actions"><button type="button" class="btn" onclick="addHomeExerciseDialog.close()">Cancelar</button><button class="btn dark" type="submit">Añadir</button></div>
+</form></dialog>
+
 <dialog id="backupDialog"><div class="modal"><h2>Respaldo y vídeos</h2><p class="muted small">Descarga una copia de seguridad o pulsa <b>Nuevos vídeos</b> para rotar entre las rutinas con mancuernas.</p>
   <div class="modal-actions"><button class="btn" onclick="exportData()">Descargar JSON</button><label class="btn soft" style="text-align:center">Importar JSON<input type="file" accept=".json,application/json" onchange="importData(event)" hidden></label></div>
   <div class="modal-actions"><button class="btn soft" onclick="rotateAllVideos();backupDialog.close()">🔀 Nuevos vídeos</button><button class="btn dark" onclick="backupDialog.close()">Cerrar</button></div>
@@ -92,7 +222,7 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
 const DAYS=['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
 const KEYS=['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
 const MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-const STORE='studio_fitness_plan_v9';
+const STORE='studio_fitness_plan_v10';
 
 const VIDEO_POOL={
  fullbody:[
@@ -117,6 +247,30 @@ const VIDEO_POOL={
  ]
 };
 
+const HOME_DEFAULTS={
+ fullbody:[
+  {name:'Sentadilla + Press de hombros (Thruster)',detail:'4 × 12 reps · Controlando la bajada'},
+  {name:'Peso muerto rumano con mancuernas',detail:'4 × 12 reps · Espalda recta y glúteo activo'},
+  {name:'Remo inclinado a dos manos',detail:'4 × 12 reps · Codos pegados al cuerpo'},
+  {name:'Zancadas alternas hacia atrás',detail:'4 × 10 por pierna · Tronco estable'},
+  {name:'Plancha con toque de hombro / arrastre de mancuerna',detail:'4 × 40 seg · Abdomen firme'}
+ ],
+ upper:[
+  {name:'Press de hombros de pie con mancuernas',detail:'4 × 12 reps · Sin arquear lumbar'},
+  {name:'Remo alterno con mancuernas',detail:'4 × 12 reps · Aprieta escápulas'},
+  {name:'Elevaciones laterales',detail:'4 × 15 reps · Subida controlada'},
+  {name:'Curl de bíceps alterno',detail:'4 × 12 reps · Codos fijos'},
+  {name:'Extensión de tríceps tras nuca (copa)',detail:'4 × 12 reps · Codos cerrados'}
+ ],
+ lower:[
+  {name:'Sentadilla Goblet con mancuerna al pecho',detail:'4 × 15 reps · Bajada profunda'},
+  {name:'Peso muerto rumano con mancuernas',detail:'4 × 12 reps · Énfasis en isquios y glúteo'},
+  {name:'Zancada búlgara o estática con mancuernas',detail:'4 × 10 por pierna · Paso amplio'},
+  {name:'Puente de glúteo con mancuerna en cadera',detail:'4 × 15 reps · Pausa 1 seg arriba'},
+  {name:'Sentadilla sumo con mancuerna',detail:'4 × 15 reps · Puntas ligeramente hacia fuera'}
+ ]
+};
+
 const baseSchedule={
  lunes:{focus:'Full Body con Mancuernas',pool:'fullbody',offset:0},
  martes:{focus:'Tren superior con mancuernas',pool:'upper',offset:1},
@@ -127,7 +281,13 @@ const baseSchedule={
  domingo:{focus:'Descanso total',exercises:[]}
 };
 
-let state={profile:{greeting:'Tu Plan Semanal',goal:'Mejorar la calidad del movimiento con carga moderada, desarrollando fuerza y control para un cuerpo más definido y funcional.'},rotationShift:0,overrides:{},completed:{}};
+let state={
+ profile:{greeting:'Tu Plan Semanal',goal:'Mejorar la calidad del movimiento con carga moderada, desarrollando fuerza y control para un cuerpo más definido y funcional.'},
+ rotationShift:0,
+ overrides:{},
+ completed:{},
+ home:{focus:'fullbody',mode:'timer',lists:clone(HOME_DEFAULTS),checked:{}}
+};
 let selected=new Date();selected.setHours(0,0,0,0);let shown=new Date(selected.getFullYear(),selected.getMonth(),1);let editingId=null;
 
 function iso(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
@@ -151,12 +311,18 @@ function dataFor(d){return state.overrides[iso(d)]||rotatingRoutineFor(d)}
 function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){toast('No se pudo guardar.')}}
 function load(){
  try{
-  let raw=localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v8')||localStorage.getItem('studio_fitness_plan_v6')||localStorage.getItem('studio_fitness_plan_v5')||localStorage.getItem('studio_fitness_plan_v4');
+  let raw=localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v9')||localStorage.getItem('studio_fitness_plan_v8')||localStorage.getItem('studio_fitness_plan_v6');
   if(raw){
    let s=JSON.parse(raw);
    let g=(s.profile?.greeting||'').trim();
    if(!g||g==='Hola, Mirian!')g='Tu Plan Semanal';
-   state={profile:{greeting:g,goal:s.profile?.goal||state.profile.goal},rotationShift:s.rotationShift||0,overrides:s.overrides||{},completed:s.completed||{}};
+   state={
+    profile:{greeting:g,goal:s.profile?.goal||state.profile.goal},
+    rotationShift:s.rotationShift||0,
+    overrides:s.overrides||{},
+    completed:s.completed||{},
+    home:s.home||{focus:'fullbody',mode:'timer',lists:clone(HOME_DEFAULTS),checked:{}}
+   };
    save();
   }
  }catch(e){}
@@ -166,13 +332,23 @@ function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.c
 function done(d,id){return !!state.completed[iso(d)]?.[id]}
 function yt(url){let m=(url||'').match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);return m?m[1]:null}
 
+function switchTab(tab){
+ const isVideos=tab==='videos';
+ document.getElementById('viewVideos').classList.toggle('hidden',!isVideos);
+ document.getElementById('viewHome').classList.toggle('hidden',isVideos);
+ document.getElementById('tabVideos').classList.toggle('active',isVideos);
+ document.getElementById('tabHome').classList.toggle('active',!isVideos);
+ document.getElementById('btnRotateHeader').classList.toggle('hidden',!isVideos);
+ if(!isVideos)renderHome();
+}
+
 function render(){
  document.getElementById('greeting').textContent=state.profile.greeting;
  document.getElementById('goal').textContent=state.profile.goal;
  document.getElementById('dayTitle').textContent=DAYS[(selected.getDay()+6)%7]+', '+selected.getDate()+' '+MONTHS[selected.getMonth()].slice(0,3);
  document.getElementById('dateLabel').textContent=iso(selected);
  let d=dataFor(selected);document.getElementById('focusText').textContent=d.focus||'Sin enfoque definido';
- renderCalendar();renderExercises();
+ renderCalendar();renderExercises();renderHome();
 }
 
 function renderCalendar(){
@@ -236,13 +412,245 @@ function toggleEmbed(id){window.openVideo=window.openVideo===id?null:id;renderEx
 function resetWeek(){confirmDialog.showModal()}
 function doReset(){let s=monday(selected);for(let i=0;i<7;i++){delete state.completed[iso(s)];s.setDate(s.getDate()+1)}save();confirmDialog.close();render();toast('Semana reiniciada')}
 function exportData(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='studio-fitness-respaldo-'+iso(new Date())+'.json';a.click();URL.revokeObjectURL(url);toast('Copia descargada')}
-function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.profile)throw Error();if(!confirm('Esto reemplazará el plan y progreso actual. ¿Continuar?'))return;state={profile:x.profile,rotationShift:x.rotationShift||0,overrides:x.overrides||{},completed:x.completed||{}};save();render();backupDialog.close();toast('Respaldo restaurado')}catch(err){alert('El archivo no parece un respaldo válido de Studio Fitness.')}e.target.value=''};r.readAsText(f)}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.profile)throw Error();if(!confirm('Esto reemplazará el plan y progreso actual. ¿Continuar?'))return;state={profile:x.profile,rotationShift:x.rotationShift||0,overrides:x.overrides||{},completed:x.completed||{},home:x.home||state.home};save();render();backupDialog.close();toast('Respaldo restaurado')}catch(err){alert('El archivo no parece un respaldo válido de Studio Fitness.')}e.target.value=''};r.readAsText(f)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+/* LÓGICA DE ENTRENAMIENTO EN CASA (MANUAL + TEMPORIZADOR) */
+let timer={running:false,phase:'idle',round:1,secLeft:40,interval:null};
+
+function beep(freq=740,dur=0.14){
+ try{
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator(),g=ctx.createGain();
+  osc.frequency.value=freq;osc.connect(g);g.connect(ctx.destination);
+  g.gain.setValueAtTime(0.15,ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+dur);
+  osc.start();osc.stop(ctx.currentTime+dur);
+ }catch(e){}
+}
+
+function setHomeFocus(f){
+ state.home.focus=f;save();resetTimer();renderHome();
+}
+
+function setHomeMode(m){
+ state.home.mode=m;save();renderHome();
+}
+
+function homeConfig(){
+ const work=parseInt(document.getElementById('cfgWork').value,10)||40;
+ const rest=parseInt(document.getElementById('cfgRest').value,10)||20;
+ const totalMin=parseInt(document.getElementById('cfgTotal').value,10)||20;
+ const rounds=Math.max(1,Math.round((totalMin*60)/(work+rest)));
+ return{work,rest,totalMin,rounds};
+}
+
+function resetTimer(){
+ clearInterval(timer.interval);
+ const cfg=homeConfig();
+ timer={running:false,phase:'idle',round:1,secLeft:cfg.work,interval:null};
+ updateTimerUI();
+}
+
+function toggleTimer(){
+ if(timer.running){
+  clearInterval(timer.interval);
+  timer.running=false;
+  updateTimerUI();
+  return;
+ }
+ if(timer.phase==='idle'||timer.phase==='done'){
+  const cfg=homeConfig();
+  timer.phase='work';timer.round=1;timer.secLeft=cfg.work;
+  beep(880,0.2);
+ }
+ timer.running=true;
+ updateTimerUI();
+ timer.interval=setInterval(tickTimer,1000);
+}
+
+function tickTimer(){
+ const cfg=homeConfig();
+ if(timer.secLeft>1){
+  timer.secLeft--;
+  if(timer.secLeft<=3)beep(520,0.1);
+  updateTimerUI();
+  return;
+ }
+ if(timer.phase==='work'){
+  if(timer.round>=cfg.rounds){
+   clearInterval(timer.interval);
+   timer.running=false;timer.phase='done';timer.secLeft=0;
+   beep(980,0.35);
+   updateTimerUI();
+   logHomeWorkoutToday();
+   return;
+  }
+  timer.phase='rest';timer.secLeft=cfg.rest;
+  beep(440,0.22);
+ }else{
+  timer.round++;timer.phase='work';timer.secLeft=cfg.work;
+  beep(880,0.22);
+ }
+ updateTimerUI();
+}
+
+function skipTimerStep(){
+ const cfg=homeConfig();
+ if(timer.phase==='idle'){timer.phase='work';timer.round=1;timer.secLeft=cfg.work;}
+ else if(timer.phase==='work'){
+  if(timer.round>=cfg.rounds){resetTimer();return;}
+  timer.phase='rest';timer.secLeft=cfg.rest;
+ }else{
+  timer.round++;timer.phase='work';timer.secLeft=cfg.work;
+ }
+ updateTimerUI();
+}
+
+function updateTimerUI(){
+ const cfg=homeConfig();
+ const list=state.home.lists[state.home.focus]||[];
+ const curIdx=list.length?(timer.round-1)%list.length:0;
+ const nextIdx=list.length?timer.round%list.length:0;
+ const curEx=list[curIdx]?.name||'Ejercicio con mancuernas';
+ const nextEx=list[nextIdx]?.name||'—';
+
+ const box=document.getElementById('timerBox');
+ const phaseEl=document.getElementById('timerPhase');
+ const clockEl=document.getElementById('timerClock');
+ const exEl=document.getElementById('timerExercise');
+ const metaEl=document.getElementById('timerMeta');
+ const btnEl=document.getElementById('timerStartBtn');
+
+ box.classList.remove('work','rest');
+ if(timer.phase==='work'){
+  box.classList.add('work');
+  phaseEl.textContent=`TRABAJO · ${cfg.work}S`;
+  exEl.textContent=curEx;
+ }else if(timer.phase==='rest'){
+  box.classList.add('rest');
+  phaseEl.textContent=`DESCANSO · ${cfg.rest}S`;
+  exEl.textContent=`Siguiente: ${nextEx}`;
+ }else if(timer.phase==='done'){
+  box.classList.add('work');
+  phaseEl.textContent='¡ENTRENAMIENTO COMPLETADO! ✿';
+  exEl.textContent='Sesión registrada en tu calendario';
+ }else{
+  phaseEl.textContent='LISTO PARA EMPEZAR';
+  exEl.textContent=curEx;
+ }
+
+ const m=String(Math.floor(timer.secLeft/60)).padStart(2,'0');
+ const s=String(timer.secLeft%60).padStart(2,'0');
+ clockEl.textContent=`${m}:${s}`;
+ metaEl.textContent=`Ronda ${timer.round} de ${cfg.rounds} · Total ${cfg.totalMin} min`;
+ btnEl.textContent=timer.running?'⏸ Pausar':'▶ Iniciar';
+ renderHomeList();
+}
+
+function renderHome(){
+ const f=state.home.focus||'fullbody';
+ const m=state.home.mode||'timer';
+ ['fullbody','upper','lower'].forEach(k=>document.getElementById('focus-'+k).classList.toggle('active',k===f));
+ document.getElementById('modeTimerBtn').className=m==='timer'?'btn dark':'btn';
+ document.getElementById('modeManualBtn').className=m==='manual'?'btn dark':'btn';
+ document.getElementById('homeTimerArea').classList.toggle('hidden',m!=='timer');
+ document.getElementById('homeManualArea').classList.toggle('hidden',m!=='manual');
+
+ const titles={fullbody:'Full Body con mancuernas',upper:'Tren Superior con mancuernas',lower:'Tren Inferior con mancuernas'};
+ document.getElementById('homeRoutineTitle').textContent=titles[f];
+ updateTimerUI();
+}
+
+function renderHomeList(){
+ const f=state.home.focus||'fullbody';
+ const m=state.home.mode||'timer';
+ const list=state.home.lists[f]||[];
+ const checks=state.home.checked[f]||{};
+ const activeIdx=list.length?(timer.round-1)%list.length:-1;
+
+ let doneCount=0;
+ list.forEach((_,i)=>{if(checks[i])doneCount++});
+ const pct=list.length?Math.round((doneCount/list.length)*100):0;
+ document.getElementById('manualProgressText').textContent=`${doneCount}/${list.length} completados (${pct}%)`;
+ document.getElementById('manualProgressBar').style.width=pct+'%';
+
+ const box=document.getElementById('homeExerciseList');
+ box.innerHTML=list.map((item,i)=>{
+  const isNow=m==='timer'&&timer.phase!=='idle'&&timer.phase!=='done'&&i===activeIdx;
+  const isDone=m==='manual'&&!!checks[i];
+  return `<div class="home-item ${isNow?'now':''} ${isDone?'done':''}">
+    <div>
+      <b>${i+1}. ${esc(item.name)}</b>
+      <div class="muted small">${esc(item.detail||'40s trabajo / 20s descanso')}</div>
+    </div>
+    <div style="display:flex;gap:6px">
+      ${m==='manual'?`<button class="btn ${isDone?'soft':''}" onclick="toggleHomeCheck(${i})">${isDone?'✓':'○'}</button>`:''}
+      <button class="btn danger" onclick="deleteHomeExercise(${i})" aria-label="Eliminar">✕</button>
+    </div>
+  </div>`;
+ }).join('');
+}
+
+function toggleHomeCheck(i){
+ const f=state.home.focus;
+ state.home.checked[f] ||= {};
+ state.home.checked[f][i]=!state.home.checked[f][i];
+ save();renderHomeList();
+}
+
+function resetManualChecks(){
+ state.home.checked[state.home.focus]={};
+ save();renderHomeList();toast('Lista reiniciada');
+}
+
+function saveNewHomeExercise(e){
+ e.preventDefault();
+ const f=state.home.focus;
+ state.home.lists[f].push({name:newHomeName.value.trim(),detail:newHomeDetail.value.trim()||'Mancuernas · 40s / 20s'});
+ newHomeName.value='';newHomeDetail.value='';
+ save();addHomeExerciseDialog.close();renderHomeList();toast('Ejercicio añadido');
+}
+
+function deleteHomeExercise(i){
+ const f=state.home.focus;
+ state.home.lists[f].splice(i,1);
+ delete state.home.checked[f];
+ save();resetTimer();renderHomeList();
+}
+
+function resetHomeExercises(){
+ const f=state.home.focus;
+ state.home.lists[f]=clone(HOME_DEFAULTS[f]);
+ state.home.checked[f]={};
+ save();resetTimer();renderHomeList();toast('Ejercicios restaurados');
+}
+
+function logHomeWorkoutToday(){
+ const today=new Date();today.setHours(0,0,0,0);
+ selected=today;shown=new Date(today.getFullYear(),today.getMonth(),1);
+ const k=iso(today);
+ const cfg=homeConfig();
+ const names={fullbody:'Full Body en casa',upper:'Tren Superior en casa',lower:'Tren Inferior en casa'};
+ const d=ensureOverride();
+ const id='home-'+Date.now();
+ d.exercises.push({
+  id,
+  name:`${cfg.totalMin} MIN | ${names[state.home.focus]} (Mancuernas)`,
+  sets:`${cfg.work}s trabajo / ${cfg.rest}s descanso`,
+  notes:'Entrenamiento en casa completado desde el temporizador/lista manual.',
+  url:''
+ });
+ state.completed[k] ||= {};
+ state.completed[k][id]=true;
+ save();render();
+ toast('¡Sesión guardada y marcada hoy en tu calendario! ✿');
+}
 
 load();render();
 if('serviceWorker' in navigator && location.protocol.startsWith('http')){
  navigator.serviceWorker.getRegistrations().then(regs=>{regs.forEach(r=>r.update())});
- navigator.serviceWorker.register('./sw.js?v=9');
+ navigator.serviceWorker.register('./sw.js?v=10');
 }
 </script>
 </body></html>
