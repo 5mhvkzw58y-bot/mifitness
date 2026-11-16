@@ -31,7 +31,7 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
   <div class="actions"><button class="btn soft" onclick="resetWeek()">↻ Reiniciar</button><button class="btn soft" onclick="backupDialog.showModal()">⇧ Respaldo</button></div>
 </div></header>
 <main>
-<section class="welcome"><div class="avatar">✧</div><h1 id="greeting">Tu Plan Semanal</h1><p>Tu espacio para entrenar y cuidarte</p></section>
+<section class="welcome"><div class="avatar">✧</div><h1 id="greeting">Tu Plan Semanal</h1><p>Rutinas con mancuernas · Cocco Fitness & growingannanas</p></section>
 
 <section class="card">
   <div class="eyebrow">Esta semana · Objetivo</div><h2 class="heading">Un paso cada día</h2>
@@ -75,7 +75,7 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
   <div class="modal-actions"><button type="button" class="btn" onclick="exerciseDialog.close()">Cancelar</button><button class="btn dark" type="submit">Guardar rutina</button></div>
 </form></dialog>
 
-<dialog id="backupDialog"><div class="modal"><h2>Respaldo y vídeos</h2><p class="muted small">Descarga una copia de seguridad o actualiza los vídeos del plan semanal con las últimas rutinas.</p>
+<dialog id="backupDialog"><div class="modal"><h2>Respaldo y vídeos</h2><p class="muted small">Descarga una copia o pulsa <b>Actualizar vídeos</b> para rotar automáticamente todos los entrenamientos de la semana con nuevas rutinas de Cocco Fitness y growingannanas.</p>
   <div class="modal-actions"><button class="btn" onclick="exportData()">Descargar JSON</button><label class="btn soft" style="text-align:center">Importar JSON<input type="file" accept=".json,application/json" onchange="importData(event)" hidden></label></div>
   <div class="modal-actions"><button class="btn soft" onclick="restoreDefaults()">↻ Actualizar vídeos</button><button class="btn dark" onclick="backupDialog.close()">Cerrar</button></div>
 </div></dialog>
@@ -87,38 +87,74 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
 const DAYS=['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
 const KEYS=['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
 const MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-const STORE='studio_fitness_plan_v2';
+const STORE='studio_fitness_plan_v4';
 
-const defaults={
- lunes:{focus:'Full Body con Mancuernas',exercises:[{id:'l1',name:'35 MIN | Full Body con Mancuernas (No Repeat) — Cocco Fitness',sets:'35 min · Mancuernas 3–5 kg',notes:'Rutina completa sin repetir ejercicios para trabajar fuerza y resistencia.',url:'https://www.youtube.com/watch?v=TAi2ppRrne0'}]},
+const VIDEO_POOL={
+ fullbody:[
+  {name:'35 MIN | Full Body con Mancuernas (Rutina Completa) — Cocco Fitness',sets:'35 min · Mancuernas 3–5 kg',notes:'Fuerza, estabilidad y resistencia trabajando todo el cuerpo.',url:'https://www.youtube.com/watch?v=TAi2ppRrne0'},
+  {name:'20 MIN | Full Body With Weights (Dumbbell Only) — growingannanas',sets:'20 min · Solo mancuernas',notes:'Sesión intensa de fuerza global con mancuernas.',url:'https://www.youtube.com/watch?v=Re6mj_DKKwc'},
+  {name:'20 MIN | Full Body METCON con Mancuernas (No Repeat) — Cocco Fitness',sets:'20 min · METCON mancuernas',notes:'Rutina metabólica sin repetir ejercicios para tonificar todo el cuerpo.',url:'https://www.youtube.com/watch?v=w7Dg2vaoqzM'},
+  {name:'40 MIN | Full Body Workout for Strength (Dumbbells) — growingannanas',sets:'40 min · Fuerza completa',notes:'Entrenamiento completo con mancuernas medias y pesadas.',url:'https://www.youtube.com/watch?v=p4MJlNbjPLw'},
+  {name:'30 MIN | All Standing Workout with Dumbbells — growingannanas',sets:'30 min · De pie con mancuernas',notes:'Cardio HIIT + fuerza con mancuernas sin bajar al suelo.',url:'https://www.youtube.com/watch?v=-FtlD0eRTro'},
+  {name:'20 MIN | Strength With Weights (Dumbbell Only) — growingannanas',sets:'20 min · Fuerza con mancuernas',notes:'Bloque enfocado en ganar fuerza y tono muscular.',url:'https://www.youtube.com/watch?v=cM6DB0S7Dso'}
+ ],
+ upper:[
+  {name:'30 MIN | Brazos, Espalda y Hombros (Super Sets) — Cocco Fitness',sets:'30 min · Tren superior',notes:'Superseries con mancuernas para tonificar brazos, espalda y hombros.',url:'https://www.youtube.com/watch?v=sODyVHB0oys'},
+  {name:'35 MIN | Brazos, Espalda y Abdomen con Mancuernas — Cocco Fitness',sets:'35 min · Tren superior + core',notes:'Formato No Repeat para brazos, hombros, espalda y abdomen.',url:'https://www.youtube.com/watch?v=6F5z3QqQLSk'},
+  {name:'25 MIN | Brazos, Espalda y Hombros (Doble Sets) — Cocco Fitness',sets:'25 min · Tren superior',notes:'Rutina completa de tren superior en formato doble sets.',url:'https://www.youtube.com/watch?v=g4EzXFNrtRk'},
+  {name:'35 MIN | Total Upper Body Workout With Weights — growingannanas',sets:'35 min · Tren superior',notes:'Fuerza de tren superior con mancuernas para esculpir brazos y espalda.',url:'https://www.youtube.com/watch?v=Dw5Pam67SRA'}
+ ],
+ lower:[
+  {name:'30 MIN | Tren Inferior: Piernas y Glúteos con Mancuernas — Cocco Fitness',sets:'30 min · Tren inferior',notes:'Enfoque en glúteos, cuádriceps e isquios con mancuernas.',url:'https://www.youtube.com/watch?v=O_Cn6nQFbYQ'},
+  {name:'40 MIN | Full Body Strength (Enfoque Pierna y Fuerza) — growingannanas',sets:'40 min · Mancuernas',notes:'Trabajo intenso de fuerza con mancuernas y énfasis en tren inferior.',url:'https://www.youtube.com/watch?v=p4MJlNbjPLw'},
+  {name:'20 MIN | Strength With Weights (Dumbbell Only) — growingannanas',sets:'20 min · Mancuernas',notes:'Sentadillas, zancadas y fuerza funcional con mancuernas.',url:'https://www.youtube.com/watch?v=cM6DB0S7Dso'}
+ ]
+};
+
+const baseSchedule={
+ lunes:{focus:'Full Body con Mancuernas',pool:'fullbody',offset:0},
  martes:{focus:'Descanso activo / movilidad',exercises:[{id:'m1',name:'Caminata suave o estiramientos',sets:'20–30 min',notes:'Recuperación activa y movilidad articular.',url:''}]},
- miercoles:{focus:'Tren superior con mancuernas',exercises:[{id:'x1',name:'30 MIN | Brazos, Espalda y Hombros (Super Sets) — Cocco Fitness',sets:'30 min · Tren superior',notes:'Superseries con mancuernas para tonificar brazos, hombros y espalda.',url:'https://www.youtube.com/watch?v=sODyVHB0oys'}]},
+ miercoles:{focus:'Tren superior con mancuernas',pool:'upper',offset:0},
  jueves:{focus:'Descanso / core opcional',exercises:[{id:'j1',name:'Descanso muscular',sets:'Día libre',notes:'Recupera antes de la sesión de tren inferior.',url:''}]},
- viernes:{focus:'Tren inferior con mancuernas',exercises:[{id:'v1',name:'30 MIN | Tren Inferior: Piernas y Glúteos — Cocco Fitness',sets:'30 min · Tren inferior',notes:'Trabajo intenso de glúteos, cuádriceps e isquios con mancuernas.',url:'https://www.youtube.com/watch?v=O_Cn6nQFbYQ'}]},
- sabado:{focus:'Extra Full Body / fuerza',exercises:[{id:'s1',name:'20 MIN | Full Body With Weights — growingannanas',sets:'20 min · Solo mancuernas',notes:'Sesión corta y potente de fuerza global con mancuernas.',url:'https://www.youtube.com/watch?v=Re6mj_DKKwc'}]},
+ viernes:{focus:'Tren inferior con mancuernas',pool:'lower',offset:0},
+ sabado:{focus:'Extra Full Body / fuerza',pool:'fullbody',offset:2},
  domingo:{focus:'Descanso total',exercises:[]}
 };
 
-let state={profile:{greeting:'Tu Plan Semanal',goal:'Mejorar la calidad del movimiento con carga moderada, desarrollando fuerza y control para un cuerpo más definido y funcional.'},routines:clone(defaults),overrides:{},completed:{}};
+let state={profile:{greeting:'Tu Plan Semanal',goal:'Mejorar la calidad del movimiento con carga moderada, desarrollando fuerza y control para un cuerpo más definido y funcional.'},rotationShift:0,overrides:{},completed:{}};
 let selected=new Date();selected.setHours(0,0,0,0);let shown=new Date(selected.getFullYear(),selected.getMonth(),1);let editingId=null;
 
 function iso(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function keyDate(d){return KEYS[(d.getDay()+6)%7]}
 function monday(d){let x=new Date(d);x.setDate(x.getDate()-((x.getDay()+6)%7));x.setHours(0,0,0,0);return x}
-function dataFor(d){return state.overrides[iso(d)]||state.routines[keyDate(d)]||{focus:'',exercises:[]}}
+function weekIndex(d){return Math.floor(monday(d).getTime()/604800000)}
 function clone(x){return JSON.parse(JSON.stringify(x))}
+
+function rotatingRoutineFor(d){
+ let k=keyDate(d),cfg=baseSchedule[k];
+ if(!cfg)return{focus:'',exercises:[]};
+ if(!cfg.pool)return clone({focus:cfg.focus,exercises:cfg.exercises||[]});
+ let list=VIDEO_POOL[cfg.pool];
+ let idx=Math.abs(weekIndex(d)+(cfg.offset||0)+(state.rotationShift||0))%list.length;
+ let v=list[idx];
+ return{focus:cfg.focus,pool:cfg.pool,exercises:[{id:`rot-${k}-${idx}`,pool:cfg.pool,name:v.name,sets:v.sets,notes:v.notes,url:v.url}]};
+}
+
+function dataFor(d){return state.overrides[iso(d)]||rotatingRoutineFor(d)}
+
 function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){toast('No se pudo guardar. Descarga un respaldo.')}}
 function load(){
  try{
-  let s=JSON.parse(localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v1'));
+  let s=JSON.parse(localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v3')||localStorage.getItem('studio_fitness_plan_v2')||localStorage.getItem('studio_fitness_plan_v1'));
   if(s){
    let g=(s.profile?.greeting||'').trim();
    if(!g||g==='Hola, Mirian!')g='Tu Plan Semanal';
-   state={profile:{greeting:g,goal:s.profile?.goal||state.profile.goal},routines:s.routines||clone(defaults),overrides:s.overrides||{},completed:s.completed||{}};
+   state={profile:{greeting:g,goal:s.profile?.goal||state.profile.goal},rotationShift:s.rotationShift||0,overrides:s.overrides||{},completed:s.completed||{}};
    save();
   }
  }catch(e){toast('No se pudieron leer los datos guardados.')}
 }
+
 function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.add('hidden'),2600)}
 function done(d,id){return !!state.completed[iso(d)]?.[id]}
 function yt(url){let m=(url||'').match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);return m?m[1]:null}
@@ -153,11 +189,24 @@ function renderExercises(){
  if(!n){box.innerHTML='<div class="card empty"><b>Un día para descansar ✿</b>No hay rutinas programadas. Puedes añadir una sesión si te apetece.</div>';return}
  box.innerHTML=arr.map(e=>{
   let isDone=done(selected,e.id),id=yt(e.url),isOpen=window.openVideo===e.id;
-  return `<article class="exercise ${isDone?'completed':''}"><span class="tag">${esc(e.sets)}</span><h3>${esc(e.name)}</h3>${e.notes?`<p class="muted small">${esc(e.notes)}</p>`:''}<div class="exercise-actions"><button class="btn ${isDone?'soft':''}" onclick="toggleDone('${e.id}')">${isDone?'✓ Completado':'○ Marcar completado'}</button><button class="btn" onclick="editExercise('${e.id}')">Editar</button><button class="btn danger" onclick="deleteExercise('${e.id}')">Eliminar</button></div>${id?`<div class="exercise-actions"><button class="btn soft" onclick="toggleEmbed('${e.id}')">${isOpen?'✕ Ocultar vídeo':'▶ Ver vídeo'}</button><a class="btn" href="${esc(e.url)}" target="_blank" rel="noopener">Abrir YouTube ↗</a></div>${isOpen?`<iframe class="video" src="https://www.youtube-nocookie.com/embed/${id}" title="${esc(e.name)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`:''}`:''}</article>`;
+  return `<article class="exercise ${isDone?'completed':''}"><span class="tag">${esc(e.sets)}</span><h3>${esc(e.name)}</h3>${e.notes?`<p class="muted small">${esc(e.notes)}</p>`:''}<div class="exercise-actions"><button class="btn ${isDone?'soft':''}" onclick="toggleDone('${e.id}')">${isDone?'✓ Completado':'○ Marcar completado'}</button><button class="btn" onclick="editExercise('${e.id}')">Editar</button><button class="btn danger" onclick="deleteExercise('${e.id}')">Eliminar</button></div>${id?`<div class="exercise-actions"><button class="btn soft" onclick="toggleEmbed('${e.id}')">${isOpen?'✕ Ocultar vídeo':'▶ Ver vídeo'}</button><button class="btn" onclick="shuffleVideo('${e.id}')">🔀 Cambiar vídeo</button><a class="btn" href="${esc(e.url)}" target="_blank" rel="noopener">YouTube ↗</a></div>${isOpen?`<iframe class="video" src="https://www.youtube-nocookie.com/embed/${id}" title="${esc(e.name)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`:''}`:''}</article>`;
  }).join('');
 }
 
 function ensureOverride(){let k=iso(selected);if(!state.overrides[k])state.overrides[k]=clone(dataFor(selected));return state.overrides[k]}
+
+function shuffleVideo(id){
+ let d=ensureOverride(),ex=d.exercises.find(x=>x.id===id);
+ if(!ex)return;
+ let poolName=ex.pool||d.pool||baseSchedule[keyDate(selected)]?.pool||'fullbody';
+ let pool=VIDEO_POOL[poolName]||VIDEO_POOL.fullbody;
+ let curIdx=pool.findIndex(v=>v.url===ex.url);
+ let nextIdx=(curIdx+1)%pool.length;
+ let next=pool[nextIdx];
+ ex.name=next.name;ex.sets=next.sets;ex.notes=next.notes;ex.url=next.url;ex.pool=poolName;
+ save();render();toast('Vídeo cambiado por otra rutina con mancuernas');
+}
+
 function toggleDone(id){let k=iso(selected);state.completed[k] ||= {};if(state.completed[k][id])delete state.completed[k][id];else state.completed[k][id]=true;save();render();toast('Progreso actualizado')}
 function moveMonth(n){shown=new Date(shown.getFullYear(),shown.getMonth()+n,1);document.getElementById('viewMode').value='month';renderCalendar()}
 function goToday(){selected=new Date();selected.setHours(0,0,0,0);shown=new Date(selected.getFullYear(),selected.getMonth(),1);window.openVideo=null;render()}
@@ -167,14 +216,21 @@ function openFocusModal(){document.getElementById('focusInput').value=dataFor(se
 function saveFocus(e){e.preventDefault();ensureOverride().focus=document.getElementById('focusInput').value.trim()||'Entrenamiento general';save();focusDialog.close();render()}
 function prepareExercise(id=null){editingId=id;let ex=id?dataFor(selected).exercises.find(x=>x.id===id):null;exerciseModalTitle.textContent=ex?'Editar rutina':'Añadir rutina';exerciseId.value=ex?.id||'';exerciseName.value=ex?.name||'';exerciseSets.value=ex?.sets||'';exerciseNotes.value=ex?.notes||'';exerciseUrl.value=ex?.url||''}
 function editExercise(id){prepareExercise(id);exerciseDialog.showModal()}
-function saveExercise(e){e.preventDefault();let d=ensureOverride(),obj={id:editingId||'ex-'+Date.now(),name:exerciseName.value.trim(),sets:exerciseSets.value.trim(),notes:exerciseNotes.value.trim(),url:exerciseUrl.value.trim()};if(editingId){let i=d.exercises.findIndex(x=>x.id===editingId);if(i>=0)d.exercises[i]=obj}else d.exercises.push(obj);save();exerciseDialog.close();render();toast('Rutina guardada')}
+function saveExercise(e){e.preventDefault();let d=ensureOverride(),obj={id:editingId||'ex-'+Date.now(),name:exerciseName.value.trim(),sets:exerciseSets.value.trim(),notes:exerciseNotes.value.trim(),url:exerciseUrl.value.trim()};if(editingId){let i=d.exercises.findIndex(x=>x.id===editingId);if(i>=0)d.exercises[i]={...d.exercises[i],...obj}}else d.exercises.push(obj);save();exerciseDialog.close();render();toast('Rutina guardada')}
 function deleteExercise(id){if(!confirm('¿Eliminar esta rutina de este día?'))return;let d=ensureOverride();d.exercises=d.exercises.filter(x=>x.id!==id);if(state.completed[iso(selected)])delete state.completed[iso(selected)][id];save();render();toast('Rutina eliminada')}
 function toggleEmbed(id){window.openVideo=window.openVideo===id?null:id;renderExercises()}
 function resetWeek(){confirmDialog.showModal()}
 function doReset(){let s=monday(selected);for(let i=0;i<7;i++){delete state.completed[iso(s)];s.setDate(s.getDate()+1)}save();confirmDialog.close();render();toast('Semana reiniciada')}
 function exportData(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='studio-fitness-respaldo-'+iso(new Date())+'.json';a.click();URL.revokeObjectURL(url);toast('Copia descargada')}
-function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.routines||!x.profile)throw Error();if(!confirm('Esto reemplazará el plan y progreso actual. ¿Continuar?'))return;state={profile:x.profile,routines:x.routines,overrides:x.overrides||{},completed:x.completed||{}};save();render();backupDialog.close();toast('Respaldo restaurado')}catch(err){alert('El archivo no parece un respaldo válido de Studio Fitness.')}e.target.value=''};r.readAsText(f)}
-function restoreDefaults(){if(!confirm('¿Actualizar los vídeos semanales por defecto? Se conservarán tus días marcados como completados.'))return;state.routines=clone(defaults);state.overrides={};save();backupDialog.close();render();toast('Vídeos actualizados')}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.profile)throw Error();if(!confirm('Esto reemplazará el plan y progreso actual. ¿Continuar?'))return;state={profile:x.profile,rotationShift:x.rotationShift||0,overrides:x.overrides||{},completed:x.completed||{}};save();render();backupDialog.close();toast('Respaldo restaurado')}catch(err){alert('El archivo no parece un respaldo válido de Studio Fitness.')}e.target.value=''};r.readAsText(f)}
+function restoreDefaults(){
+ state.rotationShift=(state.rotationShift||0)+1;
+ let s=monday(selected);
+ for(let i=0;i<7;i++){delete state.overrides[iso(s)];s.setDate(s.getDate()+1)}
+ window.openVideo=null;
+ save();backupDialog.close();render();
+ toast('Vídeos de toda la semana renovados');
+}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 load();render();
 </script>
