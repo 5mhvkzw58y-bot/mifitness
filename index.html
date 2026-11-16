@@ -35,7 +35,7 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
   </div>
 </div></header>
 <main>
-<section class="welcome"><div class="avatar">✧</div><h1 id="greeting">Tu Plan Semanal</h1><p>Rutinas con mancuernas · Prioridad Cocco Fitness ✿</p></section>
+<section class="welcome"><div class="avatar">✧</div><h1 id="greeting">Tu Plan Semanal</h1><p>Tu espacio para entrenar y cuidarte</p></section>
 
 <section class="card">
   <div class="eyebrow">Esta semana · Objetivo</div><h2 class="heading">Un paso cada día</h2>
@@ -243,7 +243,7 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 load();render();
 if('serviceWorker' in navigator && location.protocol.startsWith('http')){
  navigator.serviceWorker.getRegistrations().then(regs=>{regs.forEach(r=>r.update())});
- navigator.serviceWorker.register('./sw.js?v=6');
+ navigator.serviceWorker.register('./sw.js?v=7');
 }
 </script>
 </body></html>
