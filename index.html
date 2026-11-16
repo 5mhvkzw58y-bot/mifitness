@@ -34,18 +34,29 @@ main{max-width:760px;margin:auto;padding:20px 15px 90px;display:grid;gap:15px}
 .timer-box.rest{background:#f5ebe8;border-color:var(--blushdark)}
 .timer-phase{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:var(--terra)}
 .timer-box.work .timer-phase{color:var(--sage)}
-.timer-clock{font-size:54px;font-weight:900;line-height:1.05;margin:6px 0;font-variant-numeric:tabular-nums}
-.timer-current{font-size:16px;font-weight:800;margin:4px 0 2px}
-.timer-next{font-size:12px;color:var(--taupe)}
+.timer-clock{font-size:52px;font-weight:900;line-height:1.05;margin:6px 0;font-variant-numeric:tabular-nums}
+.timer-current{font-size:16px;font-weight:800;margin:6px 0 2px}
+.timer-tip{font-size:12px;color:var(--taupe);max-width:340px;margin:0 auto 6px}
+.timer-next{font-size:12px;color:var(--terra);font-weight:700}
+.timer-figure{width:118px;height:96px;margin:6px auto;border-radius:14px;background:var(--white);border:1px solid var(--sand);display:grid;place-items:center;padding:4px}
+.timer-figure svg{width:100%;height:100%}
 .timer-cfg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
 .timer-cfg label{display:grid;gap:4px;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--taupe);font-weight:800;text-align:center}
 .timer-cfg select{border:1px solid var(--sand);background:var(--white);border-radius:10px;padding:8px 4px;font-weight:700;text-align:center;color:var(--ink)}
-.home-item{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--sand);background:var(--white);border-radius:14px;padding:12px 14px;margin-top:8px}
-.home-item.now{border-color:var(--sage);background:var(--sagesoft)}
-.home-item.done{border-color:#9ab09d;background:#f6faf6;opacity:.75}
-.home-item.done b{text-decoration:line-through;color:var(--taupe)}
 
-dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,480px);max-height:90vh;box-shadow:0 20px 70px #0003}dialog::backdrop{background:#1c191766;backdrop-filter:blur(3px)}.modal{padding:18px}.modal h2{margin:0 0 14px;font-size:20px}.field{display:grid;gap:5px;margin:12px 0}.field label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--taupe);font-weight:800}.field input,.field textarea{width:100%;border:1px solid var(--sand);border-radius:10px;background:var(--cream);padding:11px;color:var(--ink)}.field textarea{resize:vertical}.modal-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}.modal-actions>*{flex:1}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:11px 16px;border-radius:12px;z-index:30;font-size:13px;box-shadow:var(--shadow);max-width:90%;text-align:center}
+/* Tarjetas visuales de ejercicios manuales */
+.home-item{border:1px solid var(--sand);background:var(--white);border-radius:16px;padding:12px;margin-top:10px;transition:.15s}
+.home-item.now{border-color:var(--sage);background:var(--sagesoft)}
+.home-item.done{border-color:#9ab09d;background:#f6faf6;opacity:.8}
+.home-item.done b{text-decoration:line-through;color:var(--taupe)}
+.home-item-top{display:flex;align-items:center;gap:12px}
+.ex-illu{width:76px;height:68px;flex-shrink:0;border-radius:12px;background:var(--cream);border:1px solid var(--sand);display:grid;place-items:center;padding:4px;cursor:pointer}
+.ex-illu svg{width:100%;height:100%}
+.ex-guide{margin-top:10px;padding-top:10px;border-top:1px dashed var(--sand);display:flex;align-items:center;gap:12px;background:var(--cream);border-radius:12px;padding:10px}
+.ex-guide-illu{width:110px;height:90px;flex-shrink:0;background:var(--white);border:1px solid var(--sand);border-radius:10px;padding:4px}
+.ex-guide-illu svg{width:100%;height:100%}
+
+dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,480px);max-height:90vh;box-shadow:0 20px 70px #0003}dialog::backdrop{background:#1c191766;backdrop-filter:blur(3px)}.modal{padding:18px}.modal h2{margin:0 0 14px;font-size:20px}.field{display:grid;gap:5px;margin:12px 0}.field label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--taupe);font-weight:800}.field input,.field textarea,.field select{width:100%;border:1px solid var(--sand);border-radius:10px;background:var(--cream);padding:11px;color:var(--ink)}.field textarea{resize:vertical}.modal-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}.modal-actions>*{flex:1}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:11px 16px;border-radius:12px;z-index:30;font-size:13px;box-shadow:var(--shadow);max-width:90%;text-align:center}
 .hidden{display:none!important}
 @media(min-width:600px){main{padding:26px 20px 70px}.card{padding:20px}.day{min-height:57px}.grid7{gap:8px}}
 </style>
@@ -99,12 +110,12 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
   <section id="exerciseList"></section>
 </div>
 
-<!-- SECCIÓN 2: ENTRENAMIENTO EN CASA (MANUAL + TEMPORIZADOR) -->
+<!-- SECCIÓN 2: ENTRENAMIENTO EN CASA (MANUAL + TEMPORIZADOR + ILUSTRACIONES) -->
 <div id="viewHome" class="hidden" style="display:grid;gap:15px">
   <section class="card">
     <div class="eyebrow">Sin vídeos · Solo mancuernas</div>
     <h2 class="heading" style="margin-bottom:4px">Entrenamiento en casa</h2>
-    <p class="muted small" style="margin:0 0 10px">Elige el enfoque muscular y entrena con el temporizador automático o a tu ritmo en modo manual.</p>
+    <p class="muted small" style="margin:0 0 10px">Elige el grupo muscular y entrena con el temporizador automático o a tu ritmo viendo la guía visual de cada movimiento.</p>
 
     <div class="pill-group">
       <button class="pill active" id="focus-fullbody" onclick="setHomeFocus('fullbody')">Full Body</button>
@@ -150,7 +161,9 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
       <div class="timer-box" id="timerBox">
         <div class="timer-phase" id="timerPhase">LISTO PARA EMPEZAR</div>
         <div class="timer-clock" id="timerClock">00:40</div>
+        <div class="timer-figure" id="timerFigure"></div>
         <div class="timer-current" id="timerExercise">—</div>
+        <div class="timer-tip" id="timerTip">—</div>
         <div class="timer-next" id="timerMeta">Ronda 1 de 20 · Total 20 min</div>
       </div>
 
@@ -180,12 +193,13 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
   <section class="card">
     <div class="row">
       <div>
-        <div class="eyebrow">Circuito activo</div>
+        <div class="eyebrow">Guía visual de ejercicios</div>
         <strong id="homeRoutineTitle" style="font-size:17px">Full Body con mancuernas</strong>
       </div>
       <button class="btn small" onclick="resetHomeExercises()">Restaurar lista</button>
     </div>
-    <div id="homeExerciseList" style="margin-top:8px"></div>
+    <p class="muted small" style="margin:4px 0 8px">Toca cualquier dibujo o «Ver técnica» para ampliar la postura del ejercicio.</p>
+    <div id="homeExerciseList"></div>
   </section>
 </div>
 </main>
@@ -206,7 +220,22 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
 
 <dialog id="addHomeExerciseDialog"><form class="modal" method="dialog" onsubmit="saveNewHomeExercise(event)"><h2>Añadir ejercicio con mancuernas</h2>
   <div class="field"><label>Ejercicio</label><input id="newHomeName" required maxlength="120" placeholder="Ej. Zancadas alternas con mancuernas"></div>
-  <div class="field"><label>Indicaciones / Series manuales</label><input id="newHomeDetail" maxlength="80" placeholder="3 series × 12 reps · Mancuernas 4 kg"></div>
+  <div class="field"><label>Tipo de movimiento (para el dibujo guía)</label>
+    <select id="newHomePose">
+      <option value="squat">Sentadilla / Piernas</option>
+      <option value="lunge">Zancada / Búlgara</option>
+      <option value="deadlift">Peso muerto / Bisagra</option>
+      <option value="bridge">Puente de glúteo en suelo</option>
+      <option value="press">Press de hombros / Thruster</option>
+      <option value="row">Remo inclinado / Espalda</option>
+      <option value="raise">Elevaciones laterales</option>
+      <option value="curl">Curl de bíceps / Brazos</option>
+      <option value="triceps">Extensión de tríceps</option>
+      <option value="plank">Plancha / Core</option>
+    </select>
+  </div>
+  <div class="field"><label>Series y repeticiones</label><input id="newHomeDetail" maxlength="80" placeholder="3 series × 12 reps · Mancuernas 4 kg"></div>
+  <div class="field"><label>Consejo de ejecución</label><input id="newHomeTip" maxlength="140" placeholder="Espalda recta, abdomen firme y movimiento controlado."></div>
   <div class="modal-actions"><button type="button" class="btn" onclick="addHomeExerciseDialog.close()">Cancelar</button><button class="btn dark" type="submit">Añadir</button></div>
 </form></dialog>
 
@@ -222,7 +251,93 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
 const DAYS=['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
 const KEYS=['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
 const MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-const STORE='studio_fitness_plan_v10';
+const STORE='studio_fitness_plan_v11';
+
+/* ILUSTRACIONES VISUALES DE POSTURAS CON MANCUERNAS (SVG MINIMALISTA) */
+function poseSVG(type){
+ const s='stroke="#1C1917" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"';
+ const db='fill="#9E7469"';
+ const ar='stroke="#6E8B74" stroke-width="2" stroke-linecap="round" fill="none"';
+ const floor='<line x1="16" y1="86" x2="104" y2="86" stroke="#EAE2DC" stroke-width="2"/>';
+ const map={
+  thruster:`<svg viewBox="0 0 120 96">${floor}
+   <circle cx="40" cy="34" r="6" ${s}/><path d="M40 40 L40 58 L28 70 L28 84 M40 58 L52 70 L52 84" ${s}/>
+   <path d="M40 46 L28 38 M40 46 L52 38" ${s}/><rect x="22" y="34" width="10" height="4" rx="2" ${db}/><rect x="48" y="34" width="10" height="4" rx="2" ${db}/>
+   <path d="M62 52 L72 52 M69 49 L72 52 L69 55" ${ar}/>
+   <circle cx="88" cy="24" r="6" ${s}/><path d="M88 30 L88 54 L82 84 M88 54 L94 84" ${s}/>
+   <path d="M88 36 L78 14 M88 36 L98 14" ${s}/><rect x="73" y="10" width="10" height="4" rx="2" ${db}/><rect x="93" y="10" width="10" height="4" rx="2" ${db}/>
+  </svg>`,
+  squat:`<svg viewBox="0 0 120 96">${floor}
+   <circle cx="42" cy="24" r="6" ${s}/><path d="M42 30 L42 54 L36 84 M42 54 L48 84" ${s}/>
+   <path d="M42 36 L34 44 L42 44 M42 36 L50 44 L42 44" ${s}/><rect x="36" y="42" width="12" height="5" rx="2" ${db}/>
+   <path d="M58 52 L68 52 M65 49 L68 52 L65 55" ${ar}/>
+   <circle cx="84" cy="38" r="6" ${s}/><path d="M84 44 L80 62 L68 72 L70 84 M80 62 L92 72 L90 84" ${s}/>
+   <path d="M84 48 L74 54 L82 54" ${s}/><rect x="76" y="51" width="12" height="5" rx="2" ${db}/>
+  </svg>`,
+  deadlift:`<svg viewBox="0 0 120 96">${floor}
+   <circle cx="40" cy="24" r="6" ${s}/><path d="M40 30 L40 54 L36 84 M40 54 L44 84" ${s}/>
+   <path d="M40 36 L34 56 M40 36 L46 56" ${s}/><rect x="29" y="55" width="10" height="4" rx="2" ${db}/><rect x="41" y="55" width="10" height="4" rx="2" ${db}/>
+   <path d="M56 50 L66 50 M63 47 L66 50 L63 53" ${ar}/>
+   <circle cx="96" cy="42" r="6" ${s}/><path d="M91 45 L74 54 L76 84 M74 54 L82 84" ${s}/>
+   <path d="M88 47 L86 68" ${s}/><rect x="80" y="67" width="12" height="4" rx="2" ${db}/>
+  </svg>`,
+  row:`<svg viewBox="0 0 120 96">${floor}
+   <circle cx="86" cy="36" r="6" ${s}/><path d="M81 40 L62 52 L56 84 M62 52 L68 84" ${s}/>
+   <path d="M76 44 L76 66" ${s}/><rect x="70" y="65" width="12" height="4" rx="2" ${db}/>
+   <path d="M46 62 L46 48 M43 51 L46 48 L49 51" ${ar}/>
+   <path d="M36 44 L24 44 L24 54" ${s}/><rect x="18" y="42" width="12" height="4" rx="2" ${db}/>
+  </svg>`,
+  lunge:`<svg viewBox="0 0 120 96">${floor}
+   <circle cx="60" cy="28" r="6" ${s}/><path d="M60 34 L60 56" ${s}/>
+   <path d="M60 56 L42 66 L42 84 M60 56 L78 72 L90 72" ${s}/>
+   <path d="M60 40 L52 60 M60 40 L68 60" ${s}/>
+   <rect x="47" y="59" width="10" height="4" rx="2" ${db}/><rect x="63" y="59" width="10" height="4" rx="2" ${db}/>
+   <path d="M34 46 L34 60 M31 57 L34 60 L37 57" ${ar}/>
+  </svg>`,
+  plank:`<svg viewBox="0 0 120 96">${floor}
+   <circle cx="92" cy="54" r="6" ${s}/><path d="M86 58 L54 68 L24 82" ${s}/>
+   <path d="M82 60 L82 82 M76 62 L66 54" ${s}/>
+   <rect x="76" y="80" width="11" height="4" rx="2" ${db}/><rect x="60" y="51" width="10" height="4" rx="2" ${db}/>
+   <path d="M64 44 C70 40, 76 42, 78 48" ${ar}/>
+  </svg>`,
+  press:`<svg viewBox="0 0 120 96">${floor}
+   <circle cx="42" cy="24" r="6" ${s}/><path d="M42 30 L42 54 L36 84 M42 54 L48 84" ${s}/>
+   <path d="M42 36 L30 32 L30 24 M42 36 L54 32 L54 24" ${s}/>
+   <rect x="25" y="21" width="10" height="4" rx="2" ${db}/><rect x="49" y="21" width="10" height="4" rx="2" ${db}/>
+   <path d="M62 46 L62 24 M59 27 L62 24 L65 27" ${ar}/>
+   <circle cx="84" cy="24" r="6" ${s}/><path d="M84 30 L84 54 L78 84 M84 54 L90 84" ${s}/>
+   <path d="M84 36 L76 14 M84 36 L92 14" ${s}/>
+   <rect x="71" y="10" width="10" height="4" rx="2" ${db}/><rect x="87" y="10" width="10" height="4" rx="2" ${db}/>
+  </svg>`,
+  raise:`<svg viewBox="0 0 120 96">${floor}
+   <circle cx="60" cy="24" r="6" ${s}/><path d="M60 30 L60 54 L54 84 M60 54 L66 84" ${s}/>
+   <path d="M60 36 L32 36 M60 36 L88 36" ${s}/>
+   <rect x="24" y="34" width="10" height="4" rx="2" ${db}/><rect x="86" y="34" width="10" height="4" rx="2" ${db}/>
+   <path d="M32 52 C28 46, 28 42, 30 39 M88 52 C92 46, 92 42, 90 39" ${ar}/>
+  </svg>`,
+  curl:`<svg viewBox="0 0 120 96">${floor}
+   <circle cx="44" cy="24" r="6" ${s}/><path d="M44 30 L44 54 L38 84 M44 54 L50 84" ${s}/>
+   <path d="M44 36 L36 48 L36 58 M44 36 L52 48 L52 58" ${s}/>
+   <rect x="31" y="57" width="10" height="4" rx="2" ${db}/><rect x="47" y="57" width="10" height="4" rx="2" ${db}/>
+   <path d="M62 48 L70 48 M67 45 L70 48 L67 51" ${ar}/>
+   <circle cx="84" cy="24" r="6" ${s}/><path d="M84 30 L84 54 L78 84 M84 54 L90 84" ${s}/>
+   <path d="M84 36 L76 48 L74 34 M84 36 L92 48 L94 34" ${s}/>
+   <rect x="69" y="31" width="10" height="4" rx="2" ${db}/><rect x="89" y="31" width="10" height="4" rx="2" ${db}/>
+  </svg>`,
+  triceps:`<svg viewBox="0 0 120 96">${floor}
+   <circle cx="60" cy="28" r="6" ${s}/><path d="M60 34 L60 58 L54 84 M60 58 L66 84" ${s}/>
+   <path d="M60 40 L54 18 L60 12 L66 18 L60 40" ${s}/>
+   <rect x="54" y="9" width="12" height="5" rx="2" ${db}/>
+   <path d="M44 26 L44 12 M41 15 L44 12 L47 15 M76 26 L76 12 M73 15 L76 12 L79 15" ${ar}/>
+  </svg>`,
+  bridge:`<svg viewBox="0 0 120 96">${floor}
+   <circle cx="28" cy="78" r="6" ${s}/><path d="M34 80 L50 80 L72 58 L88 82 L96 82" ${s}/>
+   <path d="M46 80 L66 64" ${s}/><rect x="64" y="55" width="12" height="5" rx="2" ${db}/>
+   <path d="M72 48 L72 36 M69 39 L72 36 L75 39" ${ar}/>
+  </svg>`
+ };
+ return map[type]||map.squat;
+}
 
 const VIDEO_POOL={
  fullbody:[
@@ -249,25 +364,25 @@ const VIDEO_POOL={
 
 const HOME_DEFAULTS={
  fullbody:[
-  {name:'Sentadilla + Press de hombros (Thruster)',detail:'4 × 12 reps · Controlando la bajada'},
-  {name:'Peso muerto rumano con mancuernas',detail:'4 × 12 reps · Espalda recta y glúteo activo'},
-  {name:'Remo inclinado a dos manos',detail:'4 × 12 reps · Codos pegados al cuerpo'},
-  {name:'Zancadas alternas hacia atrás',detail:'4 × 10 por pierna · Tronco estable'},
-  {name:'Plancha con toque de hombro / arrastre de mancuerna',detail:'4 × 40 seg · Abdomen firme'}
+  {name:'Sentadilla + Press de hombros (Thruster)',pose:'thruster',detail:'4 × 12 reps · Controlando la bajada',tip:'Baja en sentadilla con mancuernas a los hombros y sube empujando hacia el techo.'},
+  {name:'Peso muerto rumano con mancuernas',pose:'deadlift',detail:'4 × 12 reps · Espalda recta y glúteo activo',tip:'Lleva la cadera atrás con rodillas semidobladas deslizando las pesas pegadas a las piernas.'},
+  {name:'Remo inclinado a dos manos',pose:'row',detail:'4 × 12 reps · Codos pegados al cuerpo',tip:'Inclina el torso 45° con espalda plana y tira de las mancuernas hacia la cintura.'},
+  {name:'Zancadas alternas hacia atrás',pose:'lunge',detail:'4 × 10 por pierna · Tronco estable',tip:'Da un paso largo atrás bajando la rodilla hacia el suelo manteniendo el torso erguido.'},
+  {name:'Plancha con toque de hombro / arrastre',pose:'plank',detail:'4 × 40 seg · Abdomen firme',tip:'Apoya manos sobre mancuernas, activa glúteo y abdomen sin balancear la cadera.'}
  ],
  upper:[
-  {name:'Press de hombros de pie con mancuernas',detail:'4 × 12 reps · Sin arquear lumbar'},
-  {name:'Remo alterno con mancuernas',detail:'4 × 12 reps · Aprieta escápulas'},
-  {name:'Elevaciones laterales',detail:'4 × 15 reps · Subida controlada'},
-  {name:'Curl de bíceps alterno',detail:'4 × 12 reps · Codos fijos'},
-  {name:'Extensión de tríceps tras nuca (copa)',detail:'4 × 12 reps · Codos cerrados'}
+  {name:'Press de hombros de pie con mancuernas',pose:'press',detail:'4 × 12 reps · Sin arquear lumbar',tip:'Empuja las mancuernas desde los hombros hasta extender brazos arriba sin encoger cuello.'},
+  {name:'Remo inclinado con mancuernas',pose:'row',detail:'4 × 12 reps · Aprieta escápulas',tip:'Mantén el pecho abierto y lleva los codos hacia atrás apretando la espalda.'},
+  {name:'Elevaciones laterales',pose:'raise',detail:'4 × 15 reps · Subida controlada',tip:'Sube los brazos hacia los lados hasta la altura de los hombros con codos ligeramente flexionados.'},
+  {name:'Curl de bíceps alterno',pose:'curl',detail:'4 × 12 reps · Codos fijos',tip:'Flexiona un brazo cada vez sin impulsar con la espalda y baja despacio.'},
+  {name:'Extensión de tríceps tras nuca (copa)',pose:'triceps',detail:'4 × 12 reps · Codos cerrados',tip:'Sujeta una mancuerna por encima de la cabeza, flexiona atrás y extiende hacia arriba.'}
  ],
  lower:[
-  {name:'Sentadilla Goblet con mancuerna al pecho',detail:'4 × 15 reps · Bajada profunda'},
-  {name:'Peso muerto rumano con mancuernas',detail:'4 × 12 reps · Énfasis en isquios y glúteo'},
-  {name:'Zancada búlgara o estática con mancuernas',detail:'4 × 10 por pierna · Paso amplio'},
-  {name:'Puente de glúteo con mancuerna en cadera',detail:'4 × 15 reps · Pausa 1 seg arriba'},
-  {name:'Sentadilla sumo con mancuerna',detail:'4 × 15 reps · Puntas ligeramente hacia fuera'}
+  {name:'Sentadilla Goblet con mancuerna al pecho',pose:'squat',detail:'4 × 15 reps · Bajada profunda',tip:'Sujeta una mancuerna pegada al pecho, abre rodillas hacia fuera y baja profundo.'},
+  {name:'Peso muerto rumano con mancuernas',pose:'deadlift',detail:'4 × 12 reps · Énfasis en isquios y glúteo',tip:'Mantén la espalda neutra, siente el estiramiento detrás del muslo y sube apretando glúteo.'},
+  {name:'Zancada estática o búlgara con mancuernas',pose:'lunge',detail:'4 × 10 por pierna · Paso amplio',tip:'Baja verticalmente cargando el peso en el talón de la pierna adelantada.'},
+  {name:'Puente de glúteo con mancuerna en cadera',pose:'bridge',detail:'4 × 15 reps · Pausa 1 seg arriba',tip:'Tumbada boca arriba, apoya la mancuerna en la pelvis y eleva la cadera apretando glúteos.'},
+  {name:'Sentadilla sumo con mancuerna',pose:'squat',detail:'4 × 15 reps · Puntas ligeramente hacia fuera',tip:'Separa los pies más ancho que los hombros y baja con el torso recto.'}
  ]
 };
 
@@ -288,7 +403,7 @@ let state={
  completed:{},
  home:{focus:'fullbody',mode:'timer',lists:clone(HOME_DEFAULTS),checked:{}}
 };
-let selected=new Date();selected.setHours(0,0,0,0);let shown=new Date(selected.getFullYear(),selected.getMonth(),1);let editingId=null;
+let selected=new Date();selected.setHours(0,0,0,0);let shown=new Date(selected.getFullYear(),selected.getMonth(),1);let editingId=null;let openHomeGuide=null;
 
 function iso(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function keyDate(d){return KEYS[(d.getDay()+6)%7]}
@@ -311,17 +426,26 @@ function dataFor(d){return state.overrides[iso(d)]||rotatingRoutineFor(d)}
 function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){toast('No se pudo guardar.')}}
 function load(){
  try{
-  let raw=localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v9')||localStorage.getItem('studio_fitness_plan_v8')||localStorage.getItem('studio_fitness_plan_v6');
+  let raw=localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v10')||localStorage.getItem('studio_fitness_plan_v9')||localStorage.getItem('studio_fitness_plan_v8');
   if(raw){
    let s=JSON.parse(raw);
    let g=(s.profile?.greeting||'').trim();
    if(!g||g==='Hola, Mirian!')g='Tu Plan Semanal';
+   let lists=s.home?.lists||clone(HOME_DEFAULTS);
+   ['fullbody','upper','lower'].forEach(cat=>{
+    if(!lists[cat])lists[cat]=clone(HOME_DEFAULTS[cat]);
+    lists[cat]=lists[cat].map((item,idx)=>({
+     pose:item.pose||HOME_DEFAULTS[cat][idx]?.pose||'squat',
+     tip:item.tip||HOME_DEFAULTS[cat][idx]?.tip||'Mantén el abdomen firme y realiza el movimiento de forma controlada.',
+     ...item
+    }));
+   });
    state={
     profile:{greeting:g,goal:s.profile?.goal||state.profile.goal},
     rotationShift:s.rotationShift||0,
     overrides:s.overrides||{},
     completed:s.completed||{},
-    home:s.home||{focus:'fullbody',mode:'timer',lists:clone(HOME_DEFAULTS),checked:{}}
+    home:{focus:s.home?.focus||'fullbody',mode:s.home?.mode||'timer',lists,checked:s.home?.checked||{}}
    };
    save();
   }
@@ -415,7 +539,7 @@ function exportData(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'ap
 function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.profile)throw Error();if(!confirm('Esto reemplazará el plan y progreso actual. ¿Continuar?'))return;state={profile:x.profile,rotationShift:x.rotationShift||0,overrides:x.overrides||{},completed:x.completed||{},home:x.home||state.home};save();render();backupDialog.close();toast('Respaldo restaurado')}catch(err){alert('El archivo no parece un respaldo válido de Studio Fitness.')}e.target.value=''};r.readAsText(f)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
-/* LÓGICA DE ENTRENAMIENTO EN CASA (MANUAL + TEMPORIZADOR) */
+/* LÓGICA DE ENTRENAMIENTO EN CASA (MANUAL + TEMPORIZADOR + GUÍA VISUAL) */
 let timer={running:false,phase:'idle',round:1,secLeft:40,interval:null};
 
 function beep(freq=740,dur=0.14){
@@ -430,7 +554,7 @@ function beep(freq=740,dur=0.14){
 }
 
 function setHomeFocus(f){
- state.home.focus=f;save();resetTimer();renderHome();
+ state.home.focus=f;openHomeGuide=null;save();resetTimer();renderHome();
 }
 
 function setHomeMode(m){
@@ -512,13 +636,15 @@ function updateTimerUI(){
  const list=state.home.lists[state.home.focus]||[];
  const curIdx=list.length?(timer.round-1)%list.length:0;
  const nextIdx=list.length?timer.round%list.length:0;
- const curEx=list[curIdx]?.name||'Ejercicio con mancuernas';
- const nextEx=list[nextIdx]?.name||'—';
+ const curObj=list[curIdx]||{name:'Ejercicio con mancuernas',pose:'squat',tip:''};
+ const nextObj=list[nextIdx]||{name:'—',pose:'squat',tip:''};
 
  const box=document.getElementById('timerBox');
  const phaseEl=document.getElementById('timerPhase');
  const clockEl=document.getElementById('timerClock');
+ const figEl=document.getElementById('timerFigure');
  const exEl=document.getElementById('timerExercise');
+ const tipEl=document.getElementById('timerTip');
  const metaEl=document.getElementById('timerMeta');
  const btnEl=document.getElementById('timerStartBtn');
 
@@ -526,18 +652,26 @@ function updateTimerUI(){
  if(timer.phase==='work'){
   box.classList.add('work');
   phaseEl.textContent=`TRABAJO · ${cfg.work}S`;
-  exEl.textContent=curEx;
+  figEl.innerHTML=poseSVG(curObj.pose);
+  exEl.textContent=curObj.name;
+  tipEl.textContent=curObj.tip||'';
  }else if(timer.phase==='rest'){
   box.classList.add('rest');
   phaseEl.textContent=`DESCANSO · ${cfg.rest}S`;
-  exEl.textContent=`Siguiente: ${nextEx}`;
+  figEl.innerHTML=poseSVG(nextObj.pose);
+  exEl.textContent=`Prepara: ${nextObj.name}`;
+  tipEl.textContent=nextObj.tip||'';
  }else if(timer.phase==='done'){
   box.classList.add('work');
   phaseEl.textContent='¡ENTRENAMIENTO COMPLETADO! ✿';
+  figEl.innerHTML=poseSVG('press');
   exEl.textContent='Sesión registrada en tu calendario';
+  tipEl.textContent='';
  }else{
   phaseEl.textContent='LISTO PARA EMPEZAR';
-  exEl.textContent=curEx;
+  figEl.innerHTML=poseSVG(curObj.pose);
+  exEl.textContent=curObj.name;
+  tipEl.textContent=curObj.tip||'';
  }
 
  const m=String(Math.floor(timer.secLeft/60)).padStart(2,'0');
@@ -545,6 +679,11 @@ function updateTimerUI(){
  clockEl.textContent=`${m}:${s}`;
  metaEl.textContent=`Ronda ${timer.round} de ${cfg.rounds} · Total ${cfg.totalMin} min`;
  btnEl.textContent=timer.running?'⏸ Pausar':'▶ Iniciar';
+ renderHomeList();
+}
+
+function toggleHomeGuide(i){
+ openHomeGuide=(openHomeGuide===i)?null:i;
  renderHomeList();
 }
 
@@ -579,15 +718,27 @@ function renderHomeList(){
  box.innerHTML=list.map((item,i)=>{
   const isNow=m==='timer'&&timer.phase!=='idle'&&timer.phase!=='done'&&i===activeIdx;
   const isDone=m==='manual'&&!!checks[i];
+  const isGuideOpen=openHomeGuide===i;
   return `<div class="home-item ${isNow?'now':''} ${isDone?'done':''}">
-    <div>
-      <b>${i+1}. ${esc(item.name)}</b>
-      <div class="muted small">${esc(item.detail||'40s trabajo / 20s descanso')}</div>
+    <div class="home-item-top">
+      <div class="ex-illu" onclick="toggleHomeGuide(${i})" title="Ver postura">${poseSVG(item.pose)}</div>
+      <div style="flex:1;min-width:0">
+        <b>${i+1}. ${esc(item.name)}</b>
+        <div class="muted small">${esc(item.detail||'40s trabajo / 20s descanso')}</div>
+        <button class="btn" style="margin-top:6px;padding:4px 8px;font-size:11px" onclick="toggleHomeGuide(${i})">${isGuideOpen?'Ocultar postura':'👁 Ver técnica'}</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        ${m==='manual'?`<button class="btn ${isDone?'soft':''}" onclick="toggleHomeCheck(${i})">${isDone?'✓':'○'}</button>`:''}
+        <button class="btn danger" onclick="deleteHomeExercise(${i})" aria-label="Eliminar">✕</button>
+      </div>
     </div>
-    <div style="display:flex;gap:6px">
-      ${m==='manual'?`<button class="btn ${isDone?'soft':''}" onclick="toggleHomeCheck(${i})">${isDone?'✓':'○'}</button>`:''}
-      <button class="btn danger" onclick="deleteHomeExercise(${i})" aria-label="Eliminar">✕</button>
-    </div>
+    ${isGuideOpen?`<div class="ex-guide">
+      <div class="ex-guide-illu">${poseSVG(item.pose)}</div>
+      <div class="small">
+        <strong style="display:block;margin-bottom:3px;color:var(--terra)">Cómo hacerlo:</strong>
+        <span>${esc(item.tip||'Mantén la espalda recta, el abdomen activado y controla tanto la subida como la bajada.')}</span>
+      </div>
+    </div>`:''}
   </div>`;
  }).join('');
 }
@@ -607,8 +758,13 @@ function resetManualChecks(){
 function saveNewHomeExercise(e){
  e.preventDefault();
  const f=state.home.focus;
- state.home.lists[f].push({name:newHomeName.value.trim(),detail:newHomeDetail.value.trim()||'Mancuernas · 40s / 20s'});
- newHomeName.value='';newHomeDetail.value='';
+ state.home.lists[f].push({
+  name:newHomeName.value.trim(),
+  pose:newHomePose.value||'squat',
+  detail:newHomeDetail.value.trim()||'Mancuernas · 40s / 20s',
+  tip:newHomeTip.value.trim()||'Mantén el abdomen firme y realiza el movimiento de forma controlada.'
+ });
+ newHomeName.value='';newHomeDetail.value='';newHomeTip.value='';
  save();addHomeExerciseDialog.close();renderHomeList();toast('Ejercicio añadido');
 }
 
@@ -616,6 +772,7 @@ function deleteHomeExercise(i){
  const f=state.home.focus;
  state.home.lists[f].splice(i,1);
  delete state.home.checked[f];
+ openHomeGuide=null;
  save();resetTimer();renderHomeList();
 }
 
@@ -623,6 +780,7 @@ function resetHomeExercises(){
  const f=state.home.focus;
  state.home.lists[f]=clone(HOME_DEFAULTS[f]);
  state.home.checked[f]={};
+ openHomeGuide=null;
  save();resetTimer();renderHomeList();toast('Ejercicios restaurados');
 }
 
@@ -650,7 +808,7 @@ function logHomeWorkoutToday(){
 load();render();
 if('serviceWorker' in navigator && location.protocol.startsWith('http')){
  navigator.serviceWorker.getRegistrations().then(regs=>{regs.forEach(r=>r.update())});
- navigator.serviceWorker.register('./sw.js?v=10');
+ navigator.serviceWorker.register('./sw.js?v=11');
 }
 </script>
 </body></html>
