@@ -1,4 +1,4 @@
-const CACHE = "studio-fitness-v2";
+const CACHE = "studio-fitness-v4";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest"];
 self.addEventListener("install", e => {
   self.skipWaiting();
