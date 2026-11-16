@@ -53,12 +53,15 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
 </section>
 
 <section class="card">
-  <div class="row wrap">
-    <div><div class="eyebrow" id="dateLabel">Día seleccionado</div><h2 class="heading" id="dayTitle" style="margin-bottom:0;text-transform:capitalize">—</h2><p class="muted small" id="focusText">—</p></div>
-    <button class="btn dark" onclick="openFocusModal()">Editar enfoque</button>
+  <div>
+    <div class="eyebrow" id="dateLabel">Día seleccionado</div>
+    <h2 class="heading" id="dayTitle" style="margin-bottom:2px;text-transform:capitalize">—</h2>
+    <p class="muted small" id="focusText" style="margin:0">—</p>
   </div>
-  <div style="margin-top:15px"><div class="row small"><span class="muted">Progreso del día</span><strong id="progressText">0/0 (0%)</strong></div><div class="progress"><div class="bar" id="progressBar"></div></div></div>
-  <button class="btn dark" style="width:100%;margin-top:14px" onclick="prepareExercise();exerciseDialog.showModal()">＋ Añadir rutina / vídeo</button>
+  <div style="margin-top:14px">
+    <div class="row small"><span class="muted">Progreso del día</span><strong id="progressText">0/0 (0%)</strong></div>
+    <div class="progress"><div class="bar" id="progressBar"></div></div>
+  </div>
 </section>
 <section id="exerciseList"></section>
 </main>
@@ -69,9 +72,7 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
   <div class="modal-actions"><button type="button" class="btn" onclick="profileDialog.close()">Cancelar</button><button class="btn dark" type="submit">Guardar</button></div>
 </form></dialog>
 
-<dialog id="focusDialog"><form class="modal" method="dialog" onsubmit="saveFocus(event)"><h2>Enfoque del día</h2><div class="field"><label>Sesión</label><input id="focusInput" placeholder="Full Body, descanso…"></div><div class="modal-actions"><button type="button" class="btn" onclick="focusDialog.close()">Cancelar</button><button class="btn dark" type="submit">Guardar</button></div></form></dialog>
-
-<dialog id="exerciseDialog"><form class="modal" method="dialog" onsubmit="saveExercise(event)"><h2 id="exerciseModalTitle">Añadir rutina</h2><input id="exerciseId" type="hidden">
+<dialog id="exerciseDialog"><form class="modal" method="dialog" onsubmit="saveExercise(event)"><h2 id="exerciseModalTitle">Editar rutina</h2><input id="exerciseId" type="hidden">
   <div class="field"><label>Nombre de la rutina</label><input id="exerciseName" required maxlength="160" placeholder="Ej. Full Body con mancuernas"></div>
   <div class="field"><label>Duración / series</label><input id="exerciseSets" required maxlength="80" placeholder="35 min · Mancuernas"></div>
   <div class="field"><label>Notas</label><textarea id="exerciseNotes" rows="2" placeholder="Peso, indicaciones…"></textarea></div>
@@ -79,7 +80,7 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
   <div class="modal-actions"><button type="button" class="btn" onclick="exerciseDialog.close()">Cancelar</button><button class="btn dark" type="submit">Guardar rutina</button></div>
 </form></dialog>
 
-<dialog id="backupDialog"><div class="modal"><h2>Respaldo y vídeos</h2><p class="muted small">Descarga una copia de seguridad o pulsa <b>Nuevos vídeos</b> para rotar entre las rutinas con mancuernas de Cocco Fitness.</p>
+<dialog id="backupDialog"><div class="modal"><h2>Respaldo y vídeos</h2><p class="muted small">Descarga una copia de seguridad o pulsa <b>Nuevos vídeos</b> para rotar entre las rutinas con mancuernas.</p>
   <div class="modal-actions"><button class="btn" onclick="exportData()">Descargar JSON</button><label class="btn soft" style="text-align:center">Importar JSON<input type="file" accept=".json,application/json" onchange="importData(event)" hidden></label></div>
   <div class="modal-actions"><button class="btn soft" onclick="rotateAllVideos();backupDialog.close()">🔀 Nuevos vídeos</button><button class="btn dark" onclick="backupDialog.close()">Cerrar</button></div>
 </div></dialog>
@@ -91,7 +92,7 @@ dialog{border:1px solid var(--sand);border-radius:18px;padding:0;width:min(92vw,
 const DAYS=['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
 const KEYS=['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
 const MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-const STORE='studio_fitness_plan_v6';
+const STORE='studio_fitness_plan_v9';
 
 const VIDEO_POOL={
  fullbody:[
@@ -117,12 +118,12 @@ const VIDEO_POOL={
 };
 
 const baseSchedule={
- lunes:{focus:'Full Body con Mancuernas · Cocco Fitness',pool:'fullbody',offset:0},
- martes:{focus:'Descanso activo / movilidad',exercises:[{id:'m1',name:'Caminata suave o estiramientos',sets:'20–30 min',notes:'Recuperación activa y movilidad articular.',url:''}]},
- miercoles:{focus:'Tren superior con mancuernas · Cocco Fitness',pool:'upper',offset:0},
- jueves:{focus:'Descanso / core opcional',exercises:[{id:'j1',name:'Descanso muscular',sets:'Día libre',notes:'Recupera antes de la sesión de tren inferior.',url:''}]},
- viernes:{focus:'Tren inferior con mancuernas · Cocco Fitness',pool:'lower',offset:0},
- sabado:{focus:'Extra Full Body con mancuernas · Cocco Fitness',pool:'fullbody',offset:1},
+ lunes:{focus:'Full Body con Mancuernas',pool:'fullbody',offset:0},
+ martes:{focus:'Tren superior con mancuernas',pool:'upper',offset:1},
+ miercoles:{focus:'Tren inferior con mancuernas',pool:'lower',offset:0},
+ jueves:{focus:'Full Body con Mancuernas',pool:'fullbody',offset:2},
+ viernes:{focus:'Tren superior con mancuernas',pool:'upper',offset:2},
+ sabado:{focus:'Tren inferior con mancuernas',pool:'lower',offset:1},
  domingo:{focus:'Descanso total',exercises:[]}
 };
 
@@ -150,7 +151,7 @@ function dataFor(d){return state.overrides[iso(d)]||rotatingRoutineFor(d)}
 function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){toast('No se pudo guardar.')}}
 function load(){
  try{
-  let raw=localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v5')||localStorage.getItem('studio_fitness_plan_v4')||localStorage.getItem('studio_fitness_plan_v3')||localStorage.getItem('studio_fitness_plan_v2')||localStorage.getItem('studio_fitness_plan_v1');
+  let raw=localStorage.getItem(STORE)||localStorage.getItem('studio_fitness_plan_v8')||localStorage.getItem('studio_fitness_plan_v6')||localStorage.getItem('studio_fitness_plan_v5')||localStorage.getItem('studio_fitness_plan_v4');
   if(raw){
    let s=JSON.parse(raw);
    let g=(s.profile?.greeting||'').trim();
@@ -168,7 +169,6 @@ function yt(url){let m=(url||'').match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|emb
 function render(){
  document.getElementById('greeting').textContent=state.profile.greeting;
  document.getElementById('goal').textContent=state.profile.goal;
- document.getElementById('monthTitle').textContent=MONTHS[shown.getMonth()]+' '+shown.getFullYear();
  document.getElementById('dayTitle').textContent=DAYS[(selected.getDay()+6)%7]+', '+selected.getDate()+' '+MONTHS[selected.getMonth()].slice(0,3);
  document.getElementById('dateLabel').textContent=iso(selected);
  let d=dataFor(selected);document.getElementById('focusText').textContent=d.focus||'Sin enfoque definido';
@@ -176,6 +176,7 @@ function render(){
 }
 
 function renderCalendar(){
+ document.getElementById('monthTitle').textContent=MONTHS[shown.getMonth()]+' '+shown.getFullYear();
  const cal=document.getElementById('calendar'),wd=document.getElementById('weekdays');cal.innerHTML='';wd.innerHTML='';
  ['L','M','X','J','V','S','D'].forEach(x=>wd.innerHTML+=`<div class="weekday">${x}</div>`);
  const mode=document.getElementById('viewMode').value;let start,end;
@@ -192,7 +193,7 @@ function renderCalendar(){
 function renderExercises(){
  let box=document.getElementById('exerciseList'),d=dataFor(selected),arr=d.exercises||[];let n=arr.length,c=arr.filter(e=>done(selected,e.id)).length,p=n?Math.round(c/n*100):0;
  document.getElementById('progressText').textContent=`${c}/${n} completados (${p}%)`;document.getElementById('progressBar').style.width=p+'%';
- if(!n){box.innerHTML='<div class="card empty"><b>Un día para descansar ✿</b>No hay rutinas programadas. Puedes añadir una sesión si te apetece.</div>';return}
+ if(!n){box.innerHTML='<div class="card empty"><b>Día de descanso ✿</b>Hoy toca recuperar energía.</div>';return}
  box.innerHTML=arr.map(e=>{
   let isDone=done(selected,e.id),id=yt(e.url),isOpen=window.openVideo===e.id;
   return `<article class="exercise ${isDone?'completed':''}"><span class="tag">${esc(e.sets)}</span><h3>${esc(e.name)}</h3>${e.notes?`<p class="muted small">${esc(e.notes)}</p>`:''}<div class="exercise-actions"><button class="btn ${isDone?'soft':''}" onclick="toggleDone('${e.id}')">${isDone?'✓ Completado':'○ Marcar completado'}</button><button class="btn" onclick="editExercise('${e.id}')">Editar</button><button class="btn danger" onclick="deleteExercise('${e.id}')">Eliminar</button></div>${id?`<div class="exercise-actions"><button class="btn soft" onclick="toggleEmbed('${e.id}')">${isOpen?'✕ Ocultar vídeo':'▶ Ver vídeo'}</button><button class="btn" onclick="shuffleVideo('${e.id}')">🔀 Cambiar vídeo</button><a class="btn" href="${esc(e.url)}" target="_blank" rel="noopener">YouTube ↗</a></div>${isOpen?`<iframe class="video" src="https://www.youtube-nocookie.com/embed/${id}" title="${esc(e.name)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`:''}`:''}</article>`;
@@ -210,7 +211,7 @@ function shuffleVideo(id){
  let nextIdx=(curIdx+1)%pool.length;
  let next=pool[nextIdx];
  ex.name=next.name;ex.sets=next.sets;ex.notes=next.notes;ex.url=next.url;ex.pool=poolName;
- save();render();toast('Vídeo cambiado por otra rutina de Cocco Fitness');
+ save();render();toast('Vídeo cambiado por otra rutina con mancuernas');
 }
 
 function rotateAllVideos(){
@@ -219,7 +220,7 @@ function rotateAllVideos(){
  for(let i=0;i<7;i++){delete state.overrides[iso(s)];s.setDate(s.getDate()+1)}
  window.openVideo=null;
  save();render();
- toast('Vídeos actualizados con nuevas rutinas');
+ toast('Rutinas con mancuernas actualizadas');
 }
 
 function toggleDone(id){let k=iso(selected);state.completed[k] ||= {};if(state.completed[k][id])delete state.completed[k][id];else state.completed[k][id]=true;save();render();toast('Progreso actualizado')}
@@ -227,8 +228,6 @@ function moveMonth(n){shown=new Date(shown.getFullYear(),shown.getMonth()+n,1);d
 function goToday(){selected=new Date();selected.setHours(0,0,0,0);shown=new Date(selected.getFullYear(),selected.getMonth(),1);window.openVideo=null;render()}
 function openProfileModal(){document.getElementById('profileGreeting').value=state.profile.greeting;document.getElementById('profileGoal').value=state.profile.goal;profileDialog.showModal()}
 function saveProfile(e){e.preventDefault();state.profile.greeting=document.getElementById('profileGreeting').value.trim()||'Tu Plan Semanal';state.profile.goal=document.getElementById('profileGoal').value.trim()||'Tu objetivo es cuidarte y avanzar poco a poco.';save();profileDialog.close();render()}
-function openFocusModal(){document.getElementById('focusInput').value=dataFor(selected).focus||'';focusDialog.showModal()}
-function saveFocus(e){e.preventDefault();ensureOverride().focus=document.getElementById('focusInput').value.trim()||'Entrenamiento general';save();focusDialog.close();render()}
 function prepareExercise(id=null){editingId=id;let ex=id?dataFor(selected).exercises.find(x=>x.id===id):null;exerciseModalTitle.textContent=ex?'Editar rutina':'Añadir rutina';exerciseId.value=ex?.id||'';exerciseName.value=ex?.name||'';exerciseSets.value=ex?.sets||'';exerciseNotes.value=ex?.notes||'';exerciseUrl.value=ex?.url||''}
 function editExercise(id){prepareExercise(id);exerciseDialog.showModal()}
 function saveExercise(e){e.preventDefault();let d=ensureOverride(),obj={id:editingId||'ex-'+Date.now(),name:exerciseName.value.trim(),sets:exerciseSets.value.trim(),notes:exerciseNotes.value.trim(),url:exerciseUrl.value.trim()};if(editingId){let i=d.exercises.findIndex(x=>x.id===editingId);if(i>=0)d.exercises[i]={...d.exercises[i],...obj}}else d.exercises.push(obj);save();exerciseDialog.close();render();toast('Rutina guardada')}
@@ -243,7 +242,7 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 load();render();
 if('serviceWorker' in navigator && location.protocol.startsWith('http')){
  navigator.serviceWorker.getRegistrations().then(regs=>{regs.forEach(r=>r.update())});
- navigator.serviceWorker.register('./sw.js?v=7');
+ navigator.serviceWorker.register('./sw.js?v=9');
 }
 </script>
 </body></html>
